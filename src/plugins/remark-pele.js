@@ -4,7 +4,7 @@ import { visit } from "unist-util-visit";
 export function remarkPele() {
 	return (tree) => {
 		visit(tree, "code", (node) => {
-			if (node.lang === "mermaid") {
+			if (node.lang === "mermaid" || node.lang === "pele") {
 				const code = node.value;
 				node.type = "pele";
 				node.data = {

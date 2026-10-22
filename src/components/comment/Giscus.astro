@@ -1,86 +1,90 @@
 ---
-import { commentConfig } from "@/config";
+import { commentConfig, siteConfig } from "@/config";
+import giscusStyles from "@/styles/giscus.css?raw";
 
 if (!commentConfig?.giscus) {
 	throw new Error("Giscus comments are not configured");
 }
 
 const giscus = commentConfig.giscus;
-const lightTheme = "noborder_light";
-const darkTheme = "noborder_dark";
+// CSS를 직접 전달해 로컬 개발과 정적 호스팅에서도 iframe에 동일하게 적용한다.
+function createTheme(dark: boolean): string {
+	const hue = siteConfig.themeColor.hue;
+	const mode = dark ? "dark" : "light";
+	const css = `@import url("https://giscus.app/themes/noborder_${mode}.css");
+:root {
+  --firefly-scheme: ${mode};
+  --firefly-accent: oklch(${dark ? "0.75 0.14" : "0.70 0.14"} ${hue});
+  --firefly-text-accent: oklch(${dark ? "0.75 0.1" : "0.55 0.12"} ${hue});
+  --firefly-surface: ${dark ? `oklch(0.23 0.015 ${hue})` : "white"};
+  --firefly-inset: oklch(${dark ? "0.33 0.035" : "0.95 0.025"} ${hue});
+  --firefly-border: ${dark ? "rgb(255 255 255 / 0.08)" : "rgb(0 0 0 / 0.08)"};
+  --firefly-button-text: ${dark ? "#171717" : "white"};
+}
+${giscusStyles}`;
+	return `data:text/css;base64,${Buffer.from(css).toString("base64")}`;
+}
+const lightTheme = createTheme(false);
+const darkTheme = createTheme(true);
 ---
 
-<!-- 
-  Giscus 官方Web Component用法，兼容Astro静态输出，无需import包，无需NPM依赖！
-  参考：https://giscus.app/ 详情配置说明
--->
-<giscus-widget
-  id="comments"
-  repo={giscus.repo}
-  repoid={giscus.repoId}
-  category={giscus.category}
-  categoryid={giscus.categoryId}
-  mapping={giscus.mapping}
-  strict={giscus.strict}
-  reactionsenabled={giscus.reactionsEnabled}
-  emitmetadata={giscus.emitMetadata}
-  inputposition={giscus.inputPosition}
-  theme={lightTheme}
-  lang={giscus.lang}
-  loading={giscus.loading}
-/>
+<div id="comments" class="giscus"></div>
 
-<script is:inline define:vars={{ lightTheme, darkTheme }}>
+<script is:inline define:vars={{ giscus, lightTheme, darkTheme }}>
 (() => {
+  const container = document.currentScript.previousElementSibling;
   const requestedPath = new URLSearchParams(window.location.search).get("path");
-  const widget = document.querySelector("giscus-widget");
-  if (requestedPath && widget) {
-    widget.setAttribute("mapping", "specific");
-    widget.setAttribute("term", requestedPath);
+  const loader = document.createElement("script");
+  loader.src = "https://giscus.app/client.js";
+  loader.async = true;
+  loader.crossOrigin = "anonymous";
+  const options = {
+    repo: giscus.repo,
+    "repo-id": giscus.repoId,
+    category: giscus.category,
+    "category-id": giscus.categoryId,
+    mapping: requestedPath ? "specific" : giscus.mapping,
+    strict: giscus.strict,
+    "reactions-enabled": giscus.reactionsEnabled,
+    "emit-metadata": giscus.emitMetadata,
+    "input-position": giscus.inputPosition,
+    theme: document.documentElement.classList.contains("dark") ? "noborder_dark" : "noborder_light",
+    lang: giscus.lang,
+    loading: giscus.loading,
+  };
+  if (requestedPath) options.term = requestedPath;
+  for (const [name, value] of Object.entries(options)) {
+    loader.setAttribute(`data-${name}`, value);
   }
 
-  import("https://esm.sh/giscus");
-
-  function updateGiscusTheme() {
-    const isDark = document.documentElement.classList.contains('dark');
-    const theme = isDark ? darkTheme : lightTheme;
-    if (widget) {
-      widget.setAttribute('theme', theme);
-    }
+  let ready = false;
+  function updateTheme() {
+    const iframe = container.querySelector("iframe.giscus-frame");
+    if (!ready || !iframe) return;
+    const theme = document.documentElement.classList.contains("dark") ? darkTheme : lightTheme;
+    iframe.contentWindow.postMessage({ giscus: { setConfig: { theme } } }, "https://giscus.app");
   }
-
-  // Initial update
-  updateGiscusTheme();
-
-  // Clean up previous observer if exists
-  if (window.giscusThemeObserver) {
-    window.giscusThemeObserver.disconnect();
+  function applyThemeWhenReady(event) {
+    const iframe = container.querySelector("iframe.giscus-frame");
+    if (event.origin !== "https://giscus.app" || event.source !== iframe?.contentWindow || !event.data?.giscus) return;
+    ready = true;
+    updateTheme();
+    window.removeEventListener("message", applyThemeWhenReady);
   }
-
-  // Create new observer
-  window.giscusThemeObserver = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-        updateGiscusTheme();
-      }
-    });
-  });
-
-  window.giscusThemeObserver.observe(document.documentElement, { attributes: true });
+  window.addEventListener("message", applyThemeWhenReady);
+  window.giscusThemeObserver?.disconnect();
+  window.giscusThemeObserver = new MutationObserver(updateTheme);
+  window.giscusThemeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+  container.appendChild(loader);
 })();
 </script>
 
 <style>
-  /* Firefly 댓글 카드의 전체 폭을 사용하고 iframe의 기본 정렬을 제거한다. */
-  giscus-widget {
+  .giscus,
+  .giscus :global(iframe.giscus-frame) {
     display: block;
     width: 100%;
     min-width: 0;
-  }
-
-  giscus-widget::part(iframe) {
-    display: block;
-    width: 100%;
     margin: 0;
     border: 0;
   }

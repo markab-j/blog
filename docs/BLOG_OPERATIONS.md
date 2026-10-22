@@ -105,16 +105,7 @@ Idlerama의 외부 연결은 홈페이지 `https://idlerama.markab-j.com`을 사
 
 `siteConfig.pages`로 이웃·방명록·일상·프로젝트·갤러리·북마크·후원·애니메이션 목록을 제어한다. 후원·프로젝트·사진 앨범·즐겨찾기·한마디(Dynamic)·방명록 페이지는 활성화되어 있다. 이웃과 애니메이션 목록 등 나머지 선택 기능은 꺼져 있다. 끈 메뉴는 자동으로 숨겨지고 직접 방문하면 GitHub Pages의 `/404.html`로 이동한다. 자동 생성된 이동 안내 문구는 Astro 기본 출력이며 정상 페이지의 한국어 번역과 별개다.
 
-댓글은 `commentConfig.type: "giscus"`로 연결되어 있다. 사용자가 제공한 `markab-j/blog` 저장소와 `Announcements` 카테고리를 사용한다. 페이지 경로(`pathname`)와 엄격한 일치로 연결하며, 반응 표시·상단 입력창·한국어·지연 로딩을 사용하고 메타데이터 전송은 끈다. 방명록과 댓글을 허용한 게시글·한마디에 적용되며 후원 페이지의 댓글은 꺼져 있다.
-
-- 공통 스타일은 `src/styles/giscus.css`, 색상 생성은 `src/pages/giscus/[theme].css.ts`에서 관리한다. 빌드 시 `dist/giscus/light.css`와 `dark.css`를 생성하므로 `public`에 같은 CSS를 복사하지 않는다. 색조는 `siteConfig.themeColor.hue`를 사용한다.
-- 최초 `data-theme`부터 현재 호스트의 `/giscus/light.css` 또는 `/giscus/dark.css` HTTP(S) URL을 전달한다. Base64 CSS나 초기 준비 메시지에 의존하지 않는다. 모드가 바뀔 때 `setConfig`를 보내고, 로딩 도중 모드 변경은 iframe의 `load`에서도 동기화한다.
-- 작성칸 → 댓글 수·목록 → 반응 영역 순서를 유지한다. `inputPosition: "top"`만으로는 댓글 수와 반응 영역이 위에 남으므로 CSS 배치도 함께 유지한다. 기존 Firefly 카드는 보존하며 iframe 내부는 Giscus UI다.
-- `?path=`는 `/dynamic/comments/`에서만 사용하고 로컬 `dynamic` 컬렉션에 존재하는 `/dynamic/<slug>/` 경로만 허용한다. 잘못된 경로에서는 위젯을 생성하지 않는다. 외부 Dynamic/Memos 데이터로 전환한다면 해당 데이터의 실제 ID 검증 방식도 함께 변경해야 한다.
-- Swup의 `content:replace` 전에 테마 Observer·iframe load 리스너·전환 hook과 위젯을 정리한다. 초기화를 기다리는 `swup:enable` 리스너도 함께 해제한다. 직접 작성한 전역 `message` 리스너는 없다.
-- Giscus는 교차 출처 CSS를 요청하므로 CSS 응답에 CORS가 필요하다. 개발 endpoint는 `Access-Control-Allow-Origin: *`를 반환한다. GitHub Pages 전환 후에도 두 CSS URL의 200 응답·`text/css`·CORS 헤더를 확인한다. 로컬 CSS는 브라우저의 로컬 네트워크 접근 정책으로 제한될 수 있다. 운영 주소로 임의 우회하지 말고 이 경우 공개 배포 후 확인한다.
-
-API 비밀키는 환경 변수로만 관리한다.
+댓글은 `commentConfig.type: "giscus"`로 연결되어 있다. 사용자가 제공한 `markab-j/blog` 저장소와 `Announcements` 카테고리를 사용한다. 페이지 경로(`pathname`)와 엄격한 일치로 연결하며, 반응 표시·상단 입력창·한국어·지연 로딩을 사용하고 메타데이터 전송은 끈다. Giscus는 상단 입력창 아래로 댓글 목록이 이어지도록 `inputPosition: "top"`을 유지한다. 기존 Firefly 댓글 카드 안에서 위젯과 iframe이 전체 폭을 사용하며, `src/styles/giscus.css`와 Firefly의 기본 색상으로 만든 CSS를 데이터 URL로 Giscus iframe에 직접 적용한다. 별도 CSS 서버나 로컬 네트워크 접근 권한 없이 로컬 개발·GitHub Pages에서 같은 스타일을 사용한다. 이 테마는 작성칸 → 댓글 수·목록 → 반응 영역 순서와 Firefly의 기본 테마 색상·둥근 입력창을 적용하고, 라이트·다크 모드는 블로그와 연동한다. `inputPosition: "top"`만으로는 댓글 수와 반응 영역이 위에 남으므로 CSS 배치도 함께 유지한다. iframe 내부 UI는 Giscus가 제공하며 Firefly의 Twikoo 전용 스타일과 동일한 디자인은 아니다. 페이지 이동 시 스크립트의 전역 변수 충돌을 피하도록 초기화 코드를 지역 범위에 둔다. 생성된 외부 script를 중복 삽입하지 않는다. 방명록과 댓글을 허용한 게시글·한마디에 적용되며, 후원 페이지의 댓글은 기존 설정대로 꺼져 있다. API 비밀키는 환경 변수로만 관리한다.
 
 음악 버튼은 내비게이션에서 켜져 있고 사이드바는 꺼져 있으며 재생 목록은 비어 있다. 후원은 Ko-fi만 활성화되어 있으며, 후원자·이웃·갤러리·북마크 목록은 비어 있다. 실제 자료를 등록한 뒤 관련 스위치를 켠다. 캐릭터 모델은 비활성화했고 예시 미디어는 보관 폴더로 이동했다. 통계 서비스는 ID가 없어 동작하지 않는다. 표시 설정·다크 모드·테마 색상·목록 전환 등 기존 기능은 유지한다.
 

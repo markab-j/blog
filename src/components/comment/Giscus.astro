@@ -1,94 +1,80 @@
 ---
-import { getCollection } from "astro:content";
-import { commentConfig } from "@/config";
-import { dynamicSlug } from "@/utils/dynamic-utils";
+import { commentConfig, siteConfig } from "@/config";
+import giscusStyles from "@/styles/giscus.css?raw";
 
 if (!commentConfig?.giscus) {
 	throw new Error("Giscus comments are not configured");
 }
 
 const giscus = commentConfig.giscus;
-const baseUrl = import.meta.env.BASE_URL;
-const isDynamicEmbed = Astro.url.pathname === "/dynamic/comments/";
-const allowedPaths = isDynamicEmbed
-	? (await getCollection("dynamic")).map(
-			(entry) => `/dynamic/${dynamicSlug(entry.id)}/`,
-		)
-	: [];
+// CSS를 직접 전달해 로컬 개발과 정적 호스팅에서도 iframe에 동일하게 적용한다.
+function createTheme(dark: boolean): string {
+	const hue = siteConfig.themeColor.hue;
+	const mode = dark ? "dark" : "light";
+	const css = `@import url("https://giscus.app/themes/noborder_${mode}.css");
+:root {
+  --firefly-scheme: ${mode};
+  --firefly-accent: oklch(${dark ? "0.75 0.14" : "0.70 0.14"} ${hue});
+  --firefly-text-accent: oklch(${dark ? "0.75 0.1" : "0.55 0.12"} ${hue});
+  --firefly-surface: ${dark ? `oklch(0.23 0.015 ${hue})` : "white"};
+  --firefly-inset: oklch(${dark ? "0.33 0.035" : "0.95 0.025"} ${hue});
+  --firefly-border: ${dark ? "rgb(255 255 255 / 0.08)" : "rgb(0 0 0 / 0.08)"};
+  --firefly-button-text: ${dark ? "#171717" : "white"};
+}
+${giscusStyles}`;
+	return `data:text/css;base64,${Buffer.from(css).toString("base64")}`;
+}
+const lightTheme = createTheme(false);
+const darkTheme = createTheme(true);
 ---
 
 <div id="comments" class="giscus"></div>
 
-<script is:inline define:vars={{ giscus, baseUrl, isDynamicEmbed, allowedPaths }}>
+<script is:inline define:vars={{ giscus, lightTheme, darkTheme }}>
 (() => {
   const container = document.currentScript.previousElementSibling;
-  if (container.childElementCount) return;
   const requestedPath = new URLSearchParams(window.location.search).get("path");
-  const commentPath = isDynamicEmbed && allowedPaths.includes(requestedPath) ? requestedPath : null;
-  // 잘못된 한마디 경로에 공용 Discussion을 생성하지 않는다.
-  if (isDynamicEmbed && !commentPath) return;
-  const getTheme = () => new URL(
-    `${baseUrl}giscus/${document.documentElement.classList.contains("dark") ? "dark" : "light"}.css`,
-    window.location.origin,
-  ).href;
   const loader = document.createElement("script");
   loader.src = "https://giscus.app/client.js";
   loader.async = true;
   loader.crossOrigin = "anonymous";
-  loader.dataset.swupIgnoreScript = "";
   const options = {
     repo: giscus.repo,
     "repo-id": giscus.repoId,
     category: giscus.category,
     "category-id": giscus.categoryId,
-    mapping: commentPath ? "specific" : giscus.mapping,
+    mapping: requestedPath ? "specific" : giscus.mapping,
     strict: giscus.strict,
     "reactions-enabled": giscus.reactionsEnabled,
     "emit-metadata": giscus.emitMetadata,
     "input-position": giscus.inputPosition,
-    theme: getTheme(),
+    theme: document.documentElement.classList.contains("dark") ? "noborder_dark" : "noborder_light",
     lang: giscus.lang,
     loading: giscus.loading,
   };
-  if (commentPath) options.term = commentPath;
+  if (requestedPath) options.term = requestedPath;
   for (const [name, value] of Object.entries(options)) {
     loader.setAttribute(`data-${name}`, value);
   }
 
-  let currentTheme = options.theme;
+  let ready = false;
   function updateTheme() {
-    const theme = getTheme();
-    if (theme === currentTheme) return;
-    currentTheme = theme;
-    // 로딩 중 모드를 바꾸면 iframe의 load 시점에도 최신 테마를 적용한다.
-    container.querySelector("iframe.giscus-frame")?.contentWindow.postMessage(
-      { giscus: { setConfig: { theme } } }, "https://giscus.app",
-    );
+    const iframe = container.querySelector("iframe.giscus-frame");
+    if (!ready || !iframe) return;
+    const theme = document.documentElement.classList.contains("dark") ? darkTheme : lightTheme;
+    iframe.contentWindow.postMessage({ giscus: { setConfig: { theme } } }, "https://giscus.app");
   }
-  const observer = new MutationObserver(updateTheme);
-  observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
-  function syncLoadedTheme(event) {
-    if (!event.target.matches?.("iframe.giscus-frame")) return;
-    if (getTheme() === options.theme) return;
-    event.target.contentWindow.postMessage(
-      { giscus: { setConfig: { theme: getTheme() } } }, "https://giscus.app",
-    );
+  function applyThemeWhenReady(event) {
+    const iframe = container.querySelector("iframe.giscus-frame");
+    if (event.origin !== "https://giscus.app" || event.source !== iframe?.contentWindow || !event.data?.giscus) return;
+    ready = true;
+    updateTheme();
+    window.removeEventListener("message", applyThemeWhenReady);
   }
-  container.addEventListener("load", syncLoadedTheme, true);
-  let hooks;
-  function registerCleanup() {
-    hooks = window.swup?.hooks;
-    hooks?.before("content:replace", cleanup);
-  }
-  function cleanup() {
-    observer.disconnect();
-    container.removeEventListener("load", syncLoadedTheme, true);
-    document.removeEventListener("swup:enable", registerCleanup);
-    hooks?.off("content:replace", cleanup);
-    container.replaceChildren();
-  }
-  if (window.swup?.hooks) registerCleanup();
-  else document.addEventListener("swup:enable", registerCleanup, { once: true });
+  window.addEventListener("message", applyThemeWhenReady);
+  window.giscusThemeObserver?.disconnect();
+  window.giscusThemeObserver = new MutationObserver(updateTheme);
+  window.giscusThemeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
   container.appendChild(loader);
 })();
 </script>

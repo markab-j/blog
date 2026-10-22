@@ -54,6 +54,7 @@
         {
           "title": "draft",
           "name": "draft",
+          "default": true,
           "type": "boolean"
         },
         {

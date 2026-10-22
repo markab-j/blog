@@ -18,7 +18,8 @@
 /* Tailwind v4 配置 - 从 tailwind.config.cjs 迁移 */
 @theme {
   --font-sans:
-    'Roboto', 'sans-serif', ui-sans-serif, system-ui, sans-serif,
+    system-ui, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+    'Malgun Gothic', 'Noto Sans KR', sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 

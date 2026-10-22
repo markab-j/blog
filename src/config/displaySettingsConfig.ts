@@ -21,7 +21,7 @@ export const displaySettingsConfig: DisplaySettingsConfig =
 		// 无需改动本文件：PUBLIC_DISPLAY_SETTINGS=true
 		// 环境变量优先级更高，未设置或取值无法识别时使用这里的值
 		// 生产环境建议默认关闭，只在开发调试环境开启用来预览效果
-		enable: false,
+		enable: true,
 
 		// ── 外观 (Appearance) ──────────────────────────────────
 
@@ -40,7 +40,7 @@ export const displaySettingsConfig: DisplaySettingsConfig =
 		// ── 壁纸 (Wallpaper) ──────────────────────────────────
 
 		// 壁纸模式切换开关
-		wallpaperModeSwitchable: true,
+		wallpaperModeSwitchable: false,
 
 		// 全屏壁纸布局切换开关（classic / hero）
 		fullscreenLayoutSwitchable: true,

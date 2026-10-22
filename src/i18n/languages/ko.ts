@@ -2,6 +2,28 @@ import Key from "../i18nKey";
 import type { Translation } from "../translation";
 
 export const ko: Translation = {
+	[Key.themeModeLabel]: "화면 모드",
+	[Key.displaySettingsLabel]: "화면 설정",
+	[Key.navigationMenuLabel]: "내비게이션 메뉴",
+	[Key.closeMenuLabel]: "메뉴 닫기",
+	[Key.resetDefaultLabel]: "기본값으로 재설정",
+	[Key.previousMonthLabel]: "이전 달",
+	[Key.nextMonthLabel]: "다음 달",
+	[Key.todayLabel]: "오늘로 이동",
+	[Key.profileImageLabel]: "프로필 아이콘",
+	[Key.mobileBackgroundLabel]: "모바일 배경 이미지",
+	[Key.desktopBackgroundLabel]: "데스크톱 배경 이미지",
+	[Key.categoryPostsLabel]: "{category} 카테고리의 글 보기",
+	[Key.tagPostsLabel]: "{tag} 태그의 글 보기",
+	[Key.tabsLabel]: "탭",
+	[Key.generatePosterLabel]: "공유 포스터 만들기",
+	[Key.posterImageLabel]: "공유 포스터",
+	[Key.noPublishedPosts]: "아직 발행된 글이 없습니다.",
+	[Key.devSearchTitle]: "검색 미리보기",
+	[Key.devSearchDescription]: "검색은 빌드 후 미리보기에서 사용할 수 있습니다.",
+	[Key.allRightsReserved]: "모든 권리 보유.",
+	[Key.sitemapLabel]: "사이트맵",
+
 	[Key.home]: "홈",
 	[Key.about]: "소개",
 	[Key.archive]: "아카이브",
@@ -17,7 +39,7 @@ export const ko: Translation = {
 	// 네비게이션 메뉴 그룹
 	[Key.navArticles]: "글",
 	[Key.navSocial]: "소셜",
-	[Key.navMine]: "마이",
+	[Key.navMine]: "내 기록",
 	[Key.navAbout]: "소개",
 	[Key.navLinks]: "링크",
 	[Key.all]: "전체",
@@ -80,11 +102,10 @@ export const ko: Translation = {
 	[Key.commentNotConfigured]: "댓글 시스템이 설정되지 않았습니다",
 	[Key.guestbookCommentHint]:
 		"설정 파일에서 댓글 시스템을 아직 활성화하지 않았습니다. 활성화하면 방문자가 이곳에 메시지를 남길 수 있습니다",
-	[Key.friends]: "친구",
-	[Key.friendsDescription]:
-		"여기는 제 친구들입니다. 방문하여 서로 교류해 보세요",
-	[Key.searchFriends]: "친구 검색...",
-	[Key.friendsEmpty]: "아직 친구가 없습니다.",
+	[Key.friends]: "이웃 블로그",
+	[Key.friendsDescription]: "함께 읽고 싶은 이웃 블로그를 소개합니다.",
+	[Key.searchFriends]: "이웃 블로그 검색...",
+	[Key.friendsEmpty]: "아직 등록된 이웃 블로그가 없습니다.",
 	[Key.booknav]: "북마크 모음",
 	[Key.booknavDescription]: "유용한 사이트를 카테고리별로 모았습니다.",
 	[Key.searchBooknav]: "북마크 검색...",
@@ -225,8 +246,8 @@ export const ko: Translation = {
 	[Key.vndbLengthVeryShort]: "매우 짧음",
 	[Key.vndbLengthShort]: "짧음",
 	[Key.vndbLengthMedium]: "중간",
-	[Key.vndbLengthLong]: "김",
-	[Key.vndbLengthVeryLong]: "매우 김",
+	[Key.vndbLengthLong]: "긴 편",
+	[Key.vndbLengthVeryLong]: "매우 긴 편",
 
 	// Anime Tracking - Bilibili
 	[Key.bilibili]: "Bilibili",

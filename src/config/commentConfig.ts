@@ -6,9 +6,9 @@ export const commentConfig: CommentConfig = {
 
 	//twikoo评论系统配置
 	twikoo: {
-		envId: "https://twikoo.vercel.app",
+		envId: "",
 		// 设置 Twikoo 评论系统语言
-		lang: "zh-CN",
+		lang: "ko",
 		// 是否启用文章访问量统计功能
 		visitorCount: true,
 		// Twikoo JS 文件地址，支持 CDN 链接
@@ -23,9 +23,9 @@ export const commentConfig: CommentConfig = {
 	//waline评论系统配置
 	waline: {
 		// waline 后端服务地址
-		serverURL: "https://waline.vercel.app",
+		serverURL: "",
 		// 设置 Waline 评论系统语言
-		lang: "zh-CN",
+		lang: "ko",
 		// 设置 Waline 评论系统表情地址
 		emoji: [
 			"https://unpkg.com/@waline/emojis@1.4.0/weibo",
@@ -44,9 +44,9 @@ export const commentConfig: CommentConfig = {
 	// artalk评论系统配置
 	artalk: {
 		// artalk后端程序 API 地址
-		server: "https://artalk.example.com/",
+		server: "",
 		// 设置 Artalk 语言
-		locale: "zh-CN",
+		locale: "ko",
 		// 是否启用文章访问量统计功能
 		visitorCount: true,
 	},
@@ -54,13 +54,13 @@ export const commentConfig: CommentConfig = {
 	//giscus评论系统配置
 	giscus: {
 		// 设置 Giscus 评论系统仓库
-		repo: "CuteLeaf/Firefly",
+		repo: "",
 		// 设置 Giscus 评论系统仓库ID
-		repoId: "R_kgD2gfdFGd",
+		repoId: "",
 		// 设置 Giscus 评论系统分类
 		category: "General",
 		// 获取 Giscus 评论系统分类ID
-		categoryId: "DIC_kwDOKy9HOc4CegmW",
+		categoryId: "",
 		// 获取 Giscus 评论系统映射方式
 		mapping: "title",
 		// 获取 Giscus 评论系统严格模式
@@ -72,7 +72,7 @@ export const commentConfig: CommentConfig = {
 		// 获取 Giscus 评论系统输入位置
 		inputPosition: "top",
 		// 获取 Giscus 评论系统语言
-		lang: "zh-CN",
+		lang: "ko",
 		// 获取 Giscus 评论系统加载方式
 		loading: "lazy",
 	},
@@ -80,6 +80,6 @@ export const commentConfig: CommentConfig = {
 	//disqus评论系统配置
 	disqus: {
 		// 获取 Disqus 评论系统
-		shortname: "firefly",
+		shortname: "",
 	},
 };

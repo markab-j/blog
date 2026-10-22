@@ -47,3 +47,6 @@ package/
 .codex*
 .claude
 .mimocode
+
+# local pnpm sandbox cache
+.pnpm-store/

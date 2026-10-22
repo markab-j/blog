@@ -124,7 +124,7 @@ const visibleTags =
         <div class="flex flex-row flex-nowrap items-center">
           <a
             href={getCategoryUrl(category || "")}
-            aria-label={`View all posts in the ${category || i18n(I18nKey.uncategorized)} category`}
+            aria-label={i18n(I18nKey.categoryPostsLabel).replace("{category}", category || i18n(I18nKey.uncategorized))}
             class="link-lg transition text-50 text-sm font-medium
               hover:text-(--primary) dark:hover:text-(--primary) whitespace-nowrap"
           >
@@ -161,7 +161,7 @@ const visibleTags =
                 </div>
                 <a
                   href={getTagUrl(tag)}
-                  aria-label={`View all posts with the ${tag.trim()} tag`}
+                  aria-label={i18n(I18nKey.tagPostsLabel).replace("{tag}", tag.trim())}
                   class="link-lg transition text-50 text-sm font-medium
                     hover:text-(--primary) dark:hover:text-(--primary) whitespace-nowrap"
                 >

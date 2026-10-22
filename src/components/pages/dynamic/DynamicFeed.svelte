@@ -160,18 +160,12 @@ function createItem(entry: DynamicData) {
 		time.dateTime = date.toISOString();
 		// 第三方 API 和 Memos 使用浏览器本地时区，不做额外时区转换
 		if (source.startsWith("http") || memos?.enable) {
-			time.textContent = date.toLocaleDateString("zh-CN", {
-				year: "numeric",
-				month: "2-digit",
-				day: "2-digit",
-				hour: "2-digit",
-				minute: "2-digit",
-			});
+			time.textContent = formatDateI18n(date, true);
 		} else {
 			time.textContent = new Intl.DateTimeFormat(
 				document.documentElement.lang || undefined,
 				{
-					timeZone: "UTC",
+					timeZone: siteConfig.timezone || "UTC",
 					year: "numeric",
 					month: "2-digit",
 					day: "2-digit",

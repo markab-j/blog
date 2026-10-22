@@ -6,7 +6,7 @@
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import { onMount } from "svelte";
-import { formatDynamicDate } from "@/utils/date-utils";
+import { formatDateI18n, formatDynamicDate } from "@/utils/date-utils";
 import { fetchWithDedup } from "@/utils/fetch-dedup";
 import { fetchMemos } from "@/utils/memos-adapter";
 import { url } from "@/utils/url-utils";
@@ -77,13 +77,7 @@ function getPlainText(html: string): string {
 // 第三方 API 和 Memos 使用浏览器本地时区，不做额外转换
 function formatDate(timestamp: number): string {
 	if (apiUrl.startsWith("http") || memos?.enable) {
-		return new Date(timestamp).toLocaleDateString("zh-CN", {
-			year: "numeric",
-			month: "2-digit",
-			day: "2-digit",
-			hour: "2-digit",
-			minute: "2-digit",
-		});
+		return formatDateI18n(new Date(timestamp), true);
 	}
 	return formatDynamicDate(new Date(timestamp));
 }

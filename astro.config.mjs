@@ -239,6 +239,10 @@ export default defineConfig({
 				// 根据页面开关配置过滤sitemap
 				const url = new URL(page);
 				const pathname = url.pathname;
+				if (pathname === "/404/" || pathname === "/404.html") return false;
+				if (pathname.startsWith("/projects/") && !siteConfig.pages.projects) {
+					return false;
+				}
 				if (pathname === "/dynamic/" && !siteConfig.pages.dynamic) {
 					return false;
 				}

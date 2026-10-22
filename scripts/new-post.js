@@ -5,19 +5,19 @@ import path from "node:path";
 import { pinyin } from "pinyin-pro";
 
 function getDate() {
-	const today = new Date();
-	const year = today.getFullYear();
-	const month = String(today.getMonth() + 1).padStart(2, "0");
-	const day = String(today.getDate()).padStart(2, "0");
-
-	return `${year}-${month}-${day}`;
+	return new Intl.DateTimeFormat("en-CA", {
+		timeZone: "Asia/Seoul",
+		year: "numeric",
+		month: "2-digit",
+		day: "2-digit",
+	}).format(new Date());
 }
 
 const args = process.argv.slice(2);
 
 if (args.length === 0) {
 	console.error(`Error: No filename argument provided
-Usage: npm run new-post -- <filename>`);
+Usage: pnpm new-post <filename>`);
 	process.exit(1); // Terminate the script and return error code 1
 }
 
@@ -80,14 +80,14 @@ if (!fs.existsSync(dirPath)) {
 }
 
 const content = `---
-title: ${args[0]}
+title: ${JSON.stringify(args[0])}
 published: ${getDate()}
 description: ''
 image: ''
 tags: []
 category: ''
-draft: false
-lang: ''
+draft: true
+lang: 'ko'
 slug: ${slug}
 ---
 `;

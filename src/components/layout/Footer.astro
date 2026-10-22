@@ -2,6 +2,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import { profileConfig } from "@/config";
+import I18nKey from "@/i18n/i18nKey";
+import { i18n } from "@/i18n/translation";
 import { url } from "@/utils/url-utils";
 
 const currentYear = new Date().getFullYear();
@@ -41,7 +43,7 @@ try {
 			</div>
 			<div class="mx-0.5 my-2.5 flex gap-x-2 gap-y-2.5 justify-center flex-wrap">
 				&copy; <span id="copyright-year">{currentYear}</span>
-				{profileConfig.name}. All Rights Reserved.
+				{profileConfig.name}. {i18n(I18nKey.allRightsReserved)}
 				<span aria-hidden="true">/</span>
 				<a
 					class="transition link text-(--primary) font-medium"
@@ -58,7 +60,7 @@ try {
 				<a
 					class="transition link text-(--primary) font-medium"
 					target="_blank"
-					href={url("sitemap-index.xml")}>Sitemap</a
+					href={url("sitemap-index.xml")}>{i18n(I18nKey.sitemapLabel)}</a
 				>
 			</div>
 			<!--

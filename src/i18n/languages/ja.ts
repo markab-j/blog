@@ -2,6 +2,28 @@ import Key from "../i18nKey";
 import type { Translation } from "../translation";
 
 export const ja: Translation = {
+	[Key.themeModeLabel]: "Theme mode",
+	[Key.displaySettingsLabel]: "Display settings",
+	[Key.navigationMenuLabel]: "Navigation menu",
+	[Key.closeMenuLabel]: "Close menu",
+	[Key.resetDefaultLabel]: "Reset to default",
+	[Key.previousMonthLabel]: "Previous month",
+	[Key.nextMonthLabel]: "Next month",
+	[Key.todayLabel]: "Back to today",
+	[Key.profileImageLabel]: "Profile icon",
+	[Key.mobileBackgroundLabel]: "Mobile background",
+	[Key.desktopBackgroundLabel]: "Desktop background",
+	[Key.categoryPostsLabel]: "View posts in {category}",
+	[Key.tagPostsLabel]: "View posts tagged {tag}",
+	[Key.tabsLabel]: "Tabs",
+	[Key.generatePosterLabel]: "Generate share poster",
+	[Key.posterImageLabel]: "Share poster",
+	[Key.noPublishedPosts]: "No posts published yet.",
+	[Key.devSearchTitle]: "Search preview",
+	[Key.devSearchDescription]: "Search is available after building the site.",
+	[Key.allRightsReserved]: "All rights reserved.",
+	[Key.sitemapLabel]: "Sitemap",
+
 	[Key.home]: "ホーム",
 	[Key.about]: "について",
 	[Key.archive]: "アーカイブ",

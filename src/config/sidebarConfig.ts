@@ -48,7 +48,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			// 组件类型：公告组件
 			type: "announcement",
 			// 是否启用该组件
-			enable: true,
+			enable: false,
 			// 组件位置
 			position: "top",
 			// 是否在文章详情页显示
@@ -58,7 +58,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			// 组件类型：音乐播放器
 			type: "music",
 			// 是否启用该组件
-			enable: true,
+			enable: false,
 			// 组件位置
 			position: "top",
 			// 是否在文章详情页显示
@@ -102,7 +102,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			// 组件类型：最新动态组件
 			type: "dynamic",
 			// 是否启用该组件
-			enable: true,
+			enable: false,
 			// 组件位置
 			position: "top",
 			// 是否在文章详情页显示
@@ -138,7 +138,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			specificConfig: {
 				siteInfo: {
 					// 未能识别的构建平台回退显示文本，可自定义
-					unknownBuildPlatform: "Unknown CI",
+					unknownBuildPlatform: "알 수 없는 빌드 환경",
 				},
 			},
 		},
@@ -188,9 +188,9 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			specificConfig: {
 				ad: {
 					image: {
-						src: "/assets/images/ad/ad1.webp",
+						src: "",
 						alt: "广告横幅",
-						link: "https://haoka.lot-ml.com/plugreg.html?agentid=1423316",
+						link: "",
 						external: true,
 					},
 					// 是否允许关闭广告
@@ -246,7 +246,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			// 组件类型：公告组件
 			type: "announcement",
 			// 是否启用该组件
-			enable: true,
+			enable: false,
 			// 是否在文章详情页显示
 			showOnPostPage: true,
 		},
@@ -280,7 +280,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			// 组件类型：最新动态组件
 			type: "dynamic",
 			// 是否启用该组件
-			enable: true,
+			enable: false,
 			// 是否在文章详情页显示
 			showOnPostPage: true,
 			// 组件专属配置
@@ -310,7 +310,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			specificConfig: {
 				siteInfo: {
 					// 未能识别的构建平台回退显示文本，可自定义
-					unknownBuildPlatform: "Unknown CI",
+					unknownBuildPlatform: "알 수 없는 빌드 환경",
 				},
 			},
 		},

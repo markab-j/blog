@@ -22,7 +22,7 @@ const { class: className, style, widgetConfig } = Astro.props;
 const showTitle = widgetConfig?.showTitle !== false;
 
 // 从配置中获取站点开始日期
-const siteStartDate = siteConfig.siteStartDate || "2025-01-01";
+const siteStartDate = siteConfig.siteStartDate;
 
 // 获取所有文章
 const posts = await getSortedPosts();
@@ -50,7 +50,7 @@ for (const post of posts) {
 
 // 格式化数字（添加千位分隔符）
 function formatNumber(num: number): string {
-	return num.toLocaleString();
+	return num.toLocaleString(siteConfig.lang.replace("_", "-"));
 }
 
 // 获取「最后活动」时间：取每篇文章 published 与 updated 中较新的那个，再从全站所有文章里取最大值。这样新发文章和修改老文章都会刷新该字段。
@@ -108,7 +108,11 @@ const stats = [
 		dynamic: true,
 		id: "last-update",
 	},
-];
+].filter(
+	(stat) =>
+		(stat.id !== "running-days" || siteStartDate) &&
+		(stat.id !== "last-update" || lastPostDate),
+);
 ---
 
 <WidgetLayout name={i18n(I18nKey.siteStats)} showTitle={showTitle} id="site-stats" class={className} style={style}>

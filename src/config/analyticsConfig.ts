@@ -2,7 +2,7 @@ import type { AnalyticsConfig } from "../types/analyticsConfig";
 
 export const analyticsConfig: AnalyticsConfig = {
 	// Google Analytics ID
-	googleAnalyticsId: "",
+	googleAnalyticsId: "G-V2LWR9QT5W",
 	// Microsoft Clarity ID
 	microsoftClarityId: "",
 	// Umami 统计配置

@@ -1,36 +1,17 @@
 ---
-import { commentConfig, siteConfig } from "@/config";
-import giscusStyles from "@/styles/giscus.css?raw";
+import { commentConfig } from "@/config";
 
 if (!commentConfig?.giscus) {
 	throw new Error("Giscus comments are not configured");
 }
 
 const giscus = commentConfig.giscus;
-// CSS를 직접 전달해 로컬 개발과 정적 호스팅에서도 iframe에 동일하게 적용한다.
-function createTheme(dark: boolean): string {
-	const hue = siteConfig.themeColor.hue;
-	const mode = dark ? "dark" : "light";
-	const css = `@import url("https://giscus.app/themes/noborder_${mode}.css");
-:root {
-  --firefly-scheme: ${mode};
-  --firefly-accent: oklch(${dark ? "0.75 0.14" : "0.70 0.14"} ${hue});
-  --firefly-text-accent: oklch(${dark ? "0.75 0.1" : "0.55 0.12"} ${hue});
-  --firefly-surface: ${dark ? `oklch(0.23 0.015 ${hue})` : "white"};
-  --firefly-inset: oklch(${dark ? "0.33 0.035" : "0.95 0.025"} ${hue});
-  --firefly-border: ${dark ? "rgb(255 255 255 / 0.08)" : "rgb(0 0 0 / 0.08)"};
-  --firefly-button-text: ${dark ? "#171717" : "white"};
-}
-${giscusStyles}`;
-	return `data:text/css;base64,${Buffer.from(css).toString("base64")}`;
-}
-const lightTheme = createTheme(false);
-const darkTheme = createTheme(true);
+const themePath = `${import.meta.env.BASE_URL}giscus/firefly.css`;
 ---
 
 <div id="comments" class="giscus"></div>
 
-<script is:inline define:vars={{ giscus, lightTheme, darkTheme }}>
+<script is:inline define:vars={{ giscus, themePath }}>
 (() => {
   const container = document.currentScript.previousElementSibling;
   const requestedPath = new URLSearchParams(window.location.search).get("path");
@@ -48,7 +29,7 @@ const darkTheme = createTheme(true);
     "reactions-enabled": giscus.reactionsEnabled,
     "emit-metadata": giscus.emitMetadata,
     "input-position": giscus.inputPosition,
-    theme: document.documentElement.classList.contains("dark") ? "noborder_dark" : "noborder_light",
+    theme: new URL(themePath, window.location.origin).href,
     lang: giscus.lang,
     loading: giscus.loading,
   };
@@ -57,24 +38,6 @@ const darkTheme = createTheme(true);
     loader.setAttribute(`data-${name}`, value);
   }
 
-  let ready = false;
-  function updateTheme() {
-    const iframe = container.querySelector("iframe.giscus-frame");
-    if (!ready || !iframe) return;
-    const theme = document.documentElement.classList.contains("dark") ? darkTheme : lightTheme;
-    iframe.contentWindow.postMessage({ giscus: { setConfig: { theme } } }, "https://giscus.app");
-  }
-  function applyThemeWhenReady(event) {
-    const iframe = container.querySelector("iframe.giscus-frame");
-    if (event.origin !== "https://giscus.app" || event.source !== iframe?.contentWindow || !event.data?.giscus) return;
-    ready = true;
-    updateTheme();
-    window.removeEventListener("message", applyThemeWhenReady);
-  }
-  window.addEventListener("message", applyThemeWhenReady);
-  window.giscusThemeObserver?.disconnect();
-  window.giscusThemeObserver = new MutationObserver(updateTheme);
-  window.giscusThemeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
   container.appendChild(loader);
 })();
 </script>
@@ -87,5 +50,13 @@ const darkTheme = createTheme(true);
     min-width: 0;
     margin: 0;
     border: 0;
+  }
+
+  .giscus :global(iframe.giscus-frame) {
+    color-scheme: light;
+  }
+
+  :global(html.dark) .giscus :global(iframe.giscus-frame) {
+    color-scheme: dark;
   }
 </style>

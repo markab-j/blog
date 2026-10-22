@@ -357,6 +357,7 @@ export default defineConfig({
 	vite: {
 		plugins: [tailwindcss()],
 		server: {
+			cors: { origin: "https://giscus.app" },
 			watch: {
 				ignored: ["**/package/**", "**/Firefly-docs/**"],
 			},

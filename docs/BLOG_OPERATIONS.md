@@ -105,7 +105,16 @@ Idlerama의 외부 연결은 홈페이지 `https://idlerama.markab-j.com`을 사
 
 `siteConfig.pages`로 이웃·방명록·일상·프로젝트·갤러리·북마크·후원·애니메이션 목록을 제어한다. 후원·프로젝트·사진 앨범·즐겨찾기·한마디(Dynamic)·방명록 페이지는 활성화되어 있다. 이웃과 애니메이션 목록 등 나머지 선택 기능은 꺼져 있다. 끈 메뉴는 자동으로 숨겨지고 직접 방문하면 GitHub Pages의 `/404.html`로 이동한다. 자동 생성된 이동 안내 문구는 Astro 기본 출력이며 정상 페이지의 한국어 번역과 별개다.
 
-댓글은 `commentConfig.type: "giscus"`로 연결되어 있다. 사용자가 제공한 `markab-j/blog` 저장소와 `Announcements` 카테고리를 사용한다. 페이지 경로(`pathname`)와 엄격한 일치로 연결하며, 반응 표시·상단 입력창·한국어·지연 로딩을 사용하고 메타데이터 전송은 끈다. Giscus는 상단 입력창 아래로 댓글 목록이 이어지도록 `inputPosition: "top"`을 유지한다. 기존 Firefly 댓글 카드 안에서 위젯과 iframe이 전체 폭을 사용하며, `src/styles/giscus.css`와 Firefly의 기본 색상으로 만든 CSS를 데이터 URL로 Giscus iframe에 직접 적용한다. 별도 CSS 서버나 로컬 네트워크 접근 권한 없이 로컬 개발·GitHub Pages에서 같은 스타일을 사용한다. 이 테마는 작성칸 → 댓글 수·목록 → 반응 영역 순서와 Firefly의 기본 테마 색상·둥근 입력창을 적용하고, 라이트·다크 모드는 블로그와 연동한다. `inputPosition: "top"`만으로는 댓글 수와 반응 영역이 위에 남으므로 CSS 배치도 함께 유지한다. iframe 내부 UI는 Giscus가 제공하며 Firefly의 Twikoo 전용 스타일과 동일한 디자인은 아니다. 페이지 이동 시 스크립트의 전역 변수 충돌을 피하도록 초기화 코드를 지역 범위에 둔다. 생성된 외부 script를 중복 삽입하지 않는다. 방명록과 댓글을 허용한 게시글·한마디에 적용되며, 후원 페이지의 댓글은 기존 설정대로 꺼져 있다. API 비밀키는 환경 변수로만 관리한다.
+댓글은 `commentConfig.type: "giscus"`로 연결되어 있다. 사용자가 제공한 `markab-j/blog` 저장소와 `Announcements` 카테고리를 사용한다. 페이지 경로(`pathname`)와 엄격한 일치로 연결하며, 반응 표시·상단 입력창·한국어·지연 로딩을 사용하고 메타데이터 전송은 끈다. 방명록과 댓글을 허용한 게시글·한마디에 적용되며 후원 페이지의 댓글은 꺼져 있다.
+
+- 테마 CSS는 `public/giscus/firefly.css` 한 파일에서 관리하며 Astro가 빌드 시 `dist/giscus/firefly.css`로 복사한다. Giscus 기본 테마의 색상·문법 강조와 MIT 라이선스도 파일 안에 포함하므로 외부 테마 CSS를 추가로 불러오지 않는다.
+- 최초 `data-theme`부터 현재 호스트의 `/giscus/firefly.css` 절대 URL을 사용한다. Base64 CSS, 준비 메시지, `setConfig`를 통한 로딩 후 테마 교체는 사용하지 않는다.
+- `Giscus.astro`가 iframe 요소의 `color-scheme`을 Firefly의 `html.dark` 클래스에 맞춘다. iframe 안의 CSS는 `prefers-color-scheme`으로 이를 따라가므로 OS 모드와 다른 수동 설정 및 페이지 로딩 중 모드 변경도 반영된다.
+- 색상은 `src/styles/variables.styl`의 Firefly 색상식을 따른다. 정적 CSS는 부모 페이지의 CSS 변수를 읽을 수 없으므로 `--firefly-hue`는 현재 설정값 165로 유지한다. `siteConfig.themeColor.hue`를 바꾸면 이 값도 함께 수정한다. 표시 설정의 실시간 강조색 변경은 댓글 iframe에 전달되지 않는다.
+- 작성칸 → 댓글 수·목록 → 반응 영역 순서와 둥근 입력창, 기존 Firefly 댓글 카드 및 전체 폭을 유지한다. iframe 내부 UI는 Giscus가 제공한다.
+- Giscus의 교차 출처 CSS 요청에는 CORS가 필요하다. 개발 서버는 `https://giscus.app` 출처를 허용한다. 공개 호스팅에서도 CSS URL의 200 응답·`text/css`·CORS 헤더를 확인한다. Chromium은 Giscus에서 `127.0.0.1`로 CSS를 요청할 때 `Permission was denied for this request to access the loopback address space` 오류로 차단할 수 있다. 이는 CSS 문법이나 일반 CORS 헤더 문제가 아니라 로컬 네트워크 접근 권한 제한이며 Base64 방식에는 없던 별도 HTTP 요청 때문에 발생한다. 공개 HTTPS 주소에는 loopback 차단 사유가 적용되지 않지만 배포된 CSS 응답과 CORS는 별도로 검증한다. 로컬 검증을 위해 보안 설정을 해제하거나 운영 주소로 임의 우회하지 않는다.
+
+API 비밀키는 환경 변수로만 관리한다.
 
 음악 버튼은 내비게이션에서 켜져 있고 사이드바는 꺼져 있으며 재생 목록은 비어 있다. 후원은 Ko-fi만 활성화되어 있으며, 후원자·이웃·갤러리·북마크 목록은 비어 있다. 실제 자료를 등록한 뒤 관련 스위치를 켠다. 캐릭터 모델은 비활성화했고 예시 미디어는 보관 폴더로 이동했다. 통계 서비스는 ID가 없어 동작하지 않는다. 표시 설정·다크 모드·테마 색상·목록 전환 등 기존 기능은 유지한다.
 

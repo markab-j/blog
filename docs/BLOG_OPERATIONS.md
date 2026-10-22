@@ -27,7 +27,7 @@
 
 ## 2. 개인 정보와 이미지 변경
 
-현재 적용한 정보는 `markab-j`, GitHub `https://github.com/markab-j`, 제공받은 SVG 아이콘뿐이다. 사이트명은 계정에서 유도한 임시 이름 `markab-j 블로그`, 부제는 `개인 블로그`다. 자기소개·메일·실제 사진·배경·개설일은 미제공 상태다.
+현재 적용한 정보는 `markab-j`, GitHub `https://github.com/markab-j`, 제공받은 SVG 아이콘과 배경·푸터 이미지다. 사이트명은 계정에서 유도한 임시 이름 `markab-j 블로그`, 부제는 `개인 블로그`다. 자기소개·메일·실제 사진·개설일은 미제공 상태다.
 
 | 항목 | 수정 위치와 방법 |
 | --- | --- |
@@ -36,13 +36,13 @@
 | 소개 본문 | `src/content/spec/about.md` |
 | 메뉴 | `src/config/navBarConfig.ts`. 기본 메뉴 이름은 기존 i18n 매핑으로 번역됨 |
 | 로고·favicon | `siteConfig.navbar.logo`, `siteConfig.favicon`. 현재 `public/favicon/markab-j.svg`와 512px PNG 사용 |
-| Footer 추가 문구 | `src/config/FooterConfig.html`. 원본 저작권 표시는 보존 |
+| Footer 추가 문구·장식 | 문구는 `src/config/FooterConfig.html`, 하단 그림은 `src/assets/images/under.png`와 `src/components/layout/Footer.astro`. 원본 저작권 표시는 보존 |
 | 배경·배너·영상 | `src/config/backgroundWallpaper.ts` |
 | 본문·코드 폰트 | `src/config/fontConfig.ts`, 한국어 시스템 폰트 대체 목록은 `src/styles/main.css`, `FontSetup.astro` |
 
 제공받은 원본 아이콘은 `/Users/jeong-yehwan/Pictures/icons/markab-j-Icon/favicon.svg`에서 복사했다. 사이트는 그 외부 경로에 의존하지 않는다. SVG를 바꾸면 PNG도 다시 생성한다. 현재 sharp를 이용해 원본 비율을 유지한 512×512 PNG를 만들었다. 프로필은 가벼운 SVG, 로고와 기본 OG 이미지는 호환성을 고려해 PNG를 사용한다. 로고·아바타의 대체 텍스트는 한국어로 표시한다.
 
-직접 촬영한 사진을 받으면 예를 들어 `src/assets/images/profile.webp`에 두고 `profileConfig.avatar: "assets/images/profile.webp"`로 지정한다. 배경은 `src/assets/images/banner-desktop.webp`, `banner-mobile.webp`에 저장하고 `backgroundWallpaper.src.desktop/mobile`에 각각 `assets/images/...`로 지정한다. 이후 `mode: "banner"`를 선택한다. 제목·타이핑·파도·전환 설정은 기존 `common`, `banner`, `fullscreen`, `overlay`를 사용한다. 배경 변경 UI를 열려면 이미지 설정 후 `displaySettingsConfig.wallpaperModeSwitchable`을 켠다. 제공 전까지는 `none` 모드와 빈 이미지 목록을 유지한다. 영상은 권리가 확인된 파일을 `public/assets/videos/`에 두고 `src.playerUrl`, `playerEnable`로 설정한다.
+배경 원본은 제공받은 `desktop.png`를 `src/assets/images/desktop.png`에 복사해 사용한다. PC·모바일 모두 `backgroundWallpaper.src.desktop/mobile`에서 `assets/images/desktop.png`를 참조하며 Astro가 기기별 너비로 최적화한다. 기본은 `mode: "fullscreen"`, `fullscreen.layout: "hero"`다. `displaySettingsConfig.wallpaperModeSwitchable: true`로 배경 모드 설정을 표시한다. 히어로 제목은 `YesYes`, 기존 타이핑 컴포넌트의 순환 문구는 `I Like Develop`, `I Like Music`, `I Like Wrting`이며 기존 GitHub 글래스 버튼을 사용한다. 제목·타이핑·파도·전환 설정은 기존 `common`, `banner`, `fullscreen`, `overlay`에서 조절한다. 푸터는 `src/assets/images/under.png`를 아래쪽에 얼굴이 빼꼼 보이도록 배치하며 투명도와 원본은 보존한다. 두 이미지의 iCloud 원본 경로는 빌드에 필요하지 않다. 직접 촬영한 프로필 사진을 받으면 `src/assets/images/profile.webp`에 두고 `profileConfig.avatar`를 변경한다. 영상은 권리가 확인된 파일을 `public/assets/videos/`에 두고 `src.playerUrl`, `playerEnable`로 설정한다.
 
 외부 게임·애니메이션 이미지나 무작위 이미지 API를 사용자 사진 대신 쓰지 않는다. 새 이미지는 WebP/AVIF 등으로 크기를 줄이고, 본문에는 내용을 설명하는 대체 텍스트를 쓴다. 저작권이나 위치 정보 등 공개 범위를 확인한다.
 

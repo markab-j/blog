@@ -1,6 +1,8 @@
 ---
 import fs from "node:fs";
 import path from "node:path";
+import { Image } from "astro:assets";
+import footerDecoration from "@/assets/images/under.png";
 import { profileConfig } from "@/config";
 import I18nKey from "@/i18n/i18nKey";
 import { i18n } from "@/i18n/translation";
@@ -30,7 +32,7 @@ try {
 
 <!-- 页脚：普通流位于文档末尾。site-footer 是 immersive-reading 的隐藏选择器，
      pointer-events-auto 用于覆盖首页 banner 下父级的 pointer-events: none，两者勿删 -->
-<footer class="site-footer pointer-events-auto pb-4 md:pb-6">
+<footer class="site-footer pointer-events-auto">
 	<div
 		class="transition border-t border-black/10 dark:border-white/15 mt-10 mb-5 border-dashed mx-32"
 	>
@@ -88,4 +90,33 @@ try {
 			</div>
 		</div>
 	</div>
+	<div class="footer-peek" aria-hidden="true">
+		<Image
+			src={footerDecoration}
+			alt=""
+			width={640}
+			format="webp"
+			loading="lazy"
+			class="footer-peek-image"
+		/>
+	</div>
 </footer>
+
+<style>
+	.footer-peek {
+		position: relative;
+		height: clamp(7rem, 18vw, 9rem);
+		margin-top: 1rem;
+		overflow: hidden;
+		pointer-events: none;
+	}
+
+	.footer-peek-image {
+		position: absolute;
+		bottom: 0;
+		left: 50%;
+		width: min(20rem, 80vw);
+		height: auto;
+		transform: translateX(-50%);
+	}
+</style>

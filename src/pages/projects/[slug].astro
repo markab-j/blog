@@ -137,17 +137,21 @@ const visibleTags = tags || [];
           <div class="flex flex-wrap items-center gap-2.5 mt-4">
             {link.map((r, i) => {
               const resolvedIcon = resolveLinkIcon(r.icon, r.label);
+              const LinkTag = r.value ? "a" : "button";
               const isFirst = i === 0;
               return (
-                <a
-                  href={r.value}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <LinkTag
+                  href={r.value || undefined}
+                  target={r.value ? "_blank" : undefined}
+                  rel={r.value ? "noopener noreferrer" : undefined}
+                  type={r.value ? undefined : "button"}
+                  disabled={!r.value || undefined}
                   class:list={[
-                    "inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors",
+                    "inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed",
                     isFirst
-                      ? "bg-(--primary) text-white dark:text-black/70 hover:bg-(--primary)/80"
-                      : "border border-(--primary)/40 text-(--primary) hover:bg-(--primary)/10",
+                      ? "bg-(--primary) text-white dark:text-black/70"
+                      : "border border-(--primary)/40 text-(--primary)",
+                    r.value && (isFirst ? "hover:bg-(--primary)/80" : "hover:bg-(--primary)/10"),
                   ]}
                 >
                   {resolvedIcon.kind === "icon" && <Icon name={resolvedIcon.value} class="text-base" />}
@@ -164,7 +168,7 @@ const visibleTags = tags || [];
                     <span class="text-sm font-bold">{resolvedIcon.value}</span>
                   )}
                   {r.label}
-                </a>
+                </LinkTag>
               );
             })}
           </div>

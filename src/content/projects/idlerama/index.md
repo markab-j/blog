@@ -11,9 +11,12 @@ tags:
   - Tauri
   - Svelte
 link:
-  - label: "GitHub"
-    icon: "fa7-brands:github"
-    value: "https://github.com/markab-j/idlerama-app"
+  - label: "홈페이지"
+    icon: "material-symbols:language"
+    value: "https://idlerama.markab-j.com"
+  - label: "Steam (출시 예정)"
+    icon: "fa7-brands:steam"
+    value: ""
 lang: "ko"
 ---
 
@@ -27,4 +30,4 @@ Idlerama는 데스크톱 한쪽에 작은 디오라마를 띄우는 앱입니다
 - **화면 구성:** Svelte와 TypeScript로 인터페이스를 구성합니다.
 - **프로젝트 구성:** 앱, 소개 사이트, 공통 UI 패키지로 나누어 관리합니다.
 
-<!-- 초안: 공개 전 소개 문구·개발 상태·저장소 공개 여부를 확인하고, 제공받은 실제 스크린샷을 추가합니다. published는 실제 공개일로 조정합니다. -->
+<!-- 초안: 공개 전 소개 문구·개발 상태·홈페이지 연결를 확인하고, 제공받은 실제 스크린샷을 추가합니다. published는 실제 공개일로 조정합니다. -->

@@ -13,18 +13,18 @@ const pages = resolvePageToggles({
 	// 友链页面开关
 	friends: false,
 	// 留言板页面开关，需要配置评论系统
-	guestbook: false,
+	guestbook: true,
 
 	// ── 我的 (My) ──────────────────────────────────
 
 	// 动态页面开关
-	dynamic: false,
+	dynamic: true,
 	// 项目展示页开关
 	projects: true,
 	// 相册页面开关
-	gallery: false,
+	gallery: true,
 	// 书签导航页面开关
-	booknav: false,
+	booknav: true,
 	// 哔哩哔哩追番页面开关
 	bilibili: false,
 	// 番组计划页面开关

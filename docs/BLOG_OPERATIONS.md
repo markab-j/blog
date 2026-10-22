@@ -82,7 +82,9 @@ slug: my-post
 
 프로젝트도 `src/content/projects/<slug>/index.md`에 Markdown으로 관리한다. 기존 프로젝트 목록·상세 컴포넌트를 재사용한다. `siteConfig.pages.projects`는 현재 켜져 있다.
 
-Idlerama 소개 초안은 `src/content/projects/idlerama/index.md`에 있다. `draft: true`라 `pnpm dev`에서만 확인할 수 있으며 운영 빌드에는 목록 항목과 상세 페이지가 생성되지 않는다. 개발 미리보기 경로는 `/projects/idlerama/`다. 공개 요청을 받은 뒤 설명·개발 상태·GitHub 저장소 공개 여부를 확인하고 실제 공개일과 `draft: false`를 설정한다. 스크린샷은 제공받은 자료를 같은 폴더에 저장하고 `image`에 상대 경로로 지정한다.
+Idlerama 소개 초안은 `src/content/projects/idlerama/index.md`에 있다. `draft: true`라 `pnpm dev`에서만 확인할 수 있으며 운영 빌드에는 목록 항목과 상세 페이지가 생성되지 않는다. 개발 미리보기 경로는 `/projects/idlerama/`다. 공개 요청을 받은 뒤 설명·개발 상태·홈페이지 연결를 확인하고 실제 공개일과 `draft: false`를 설정한다. 스크린샷은 제공받은 자료를 같은 폴더에 저장하고 `image`에 상대 경로로 지정한다.
+
+Idlerama의 외부 연결은 홈페이지 `https://idlerama.markab-j.com`을 사용한다. Steam은 아직 주소가 없으므로 `label: "Steam (출시 예정)"`, `icon: "fa7-brands:steam"`, `value: ""`로 둔다. 기존 프로젝트 카드와 상세 페이지는 `value`가 빈 항목을 클릭할 수 없는 비활성 버튼으로 표시한다. 실제 Steam 스토어 주소를 제공받으면 해당 `value`만 변경한다. 임의의 앱 ID나 임시 링크를 넣지 않는다.
 
 ## 4. 초안과 발행
 
@@ -101,11 +103,19 @@ Idlerama 소개 초안은 `src/content/projects/idlerama/index.md`에 있다. `d
 
 ## 6. 댓글과 선택 기능
 
-`siteConfig.pages`로 이웃·방명록·일상·프로젝트·갤러리·북마크·후원·애니메이션 목록을 제어한다. 후원·프로젝트 페이지는 활성화되어 있으며 나머지 미설정 선택 기능은 꺼져 있다. 끈 메뉴는 자동으로 숨겨지고 직접 방문하면 GitHub Pages의 `/404.html`로 이동한다. 자동 생성된 이동 안내 문구는 Astro 기본 출력이며 정상 페이지의 한국어 번역과 별개다.
+`siteConfig.pages`로 이웃·방명록·일상·프로젝트·갤러리·북마크·후원·애니메이션 목록을 제어한다. 후원·프로젝트·사진 앨범·즐겨찾기·한마디(Dynamic)·방명록 페이지는 활성화되어 있다. 이웃과 애니메이션 목록 등 나머지 선택 기능은 꺼져 있다. 끈 메뉴는 자동으로 숨겨지고 직접 방문하면 GitHub Pages의 `/404.html`로 이동한다. 자동 생성된 이동 안내 문구는 Astro 기본 출력이며 정상 페이지의 한국어 번역과 별개다.
 
 댓글은 `commentConfig.type: "none"`이다. Giscus 등 실제 서비스가 준비되면 소유자 저장소와 서비스에서 받은 ID를 설정하고 한국어 지원 여부·권한을 검증한다. 예시 서버·기존 작성자 ID는 제거했다. 서비스별 지원 언어는 다를 수 있으므로 활성화 전 해당 서비스 공식 문서를 확인한다. 방명록은 댓글 설정 후 페이지 스위치를 켠다. API 비밀키는 환경 변수로만 관리한다.
 
-음악은 메뉴와 사이드바 모두 꺼져 있으며 재생 목록이 비어 있다. 후원은 Ko-fi만 활성화되어 있으며, 후원자·이웃·갤러리·북마크 목록은 비어 있다. 실제 자료를 등록한 뒤 관련 스위치를 켠다. 캐릭터 모델은 비활성화했고 예시 미디어는 보관 폴더로 이동했다. 통계 서비스는 ID가 없어 동작하지 않는다. 표시 설정·다크 모드·테마 색상·목록 전환 등 기존 기능은 유지한다.
+음악 버튼은 내비게이션에서 켜져 있고 사이드바는 꺼져 있으며 재생 목록은 비어 있다. 후원은 Ko-fi만 활성화되어 있으며, 후원자·이웃·갤러리·북마크 목록은 비어 있다. 실제 자료를 등록한 뒤 관련 스위치를 켠다. 캐릭터 모델은 비활성화했고 예시 미디어는 보관 폴더로 이동했다. 통계 서비스는 ID가 없어 동작하지 않는다. 표시 설정·다크 모드·테마 색상·목록 전환 등 기존 기능은 유지한다.
+
+### 사진 앨범·즐겨찾기·한마디·방명록·음악
+
+- **사진 앨범** `/gallery/`: `src/config/galleryConfig.ts`의 `albums`에 앨범을 등록하고 `public/gallery/<앨범 ID>/`에 제공받은 사진을 넣는다. 현재는 빈 목록이며 데모 이미지를 되살리지 않는다.
+- **즐겨찾기** `/booknav/`: `src/config/booknavConfig.ts`의 그룹과 `items`에 실제 제목·URL을 등록한다. 아직 사용자 지정 링크는 없다.
+- **한마디** `/dynamic/`: 기존 Dynamic을 한국어에서 ‘한마디’로 표시한다. 짧은 기록은 `src/content/dynamic/`의 Markdown으로 관리하고 외부 Memos 연결은 끈 상태다. 기존 Dynamic 스키마는 초안 필터가 없으므로 사용자의 명시적 공개 요청이 있기 전에는 이 폴더에 새 기록을 생성하지 않는다. 게시를 요청받으면 `pnpm new-dynamic`으로 생성하고 본문과 서울 시간대를 포함한 `published`를 확인한다.
+- **방명록** `/guestbook/`: 페이지는 켜져 있지만 댓글 서비스 연결 전에는 입력·저장이 동작하지 않는다. `src/content/spec/guestbook.md`가 소개 본문이다. Giscus를 쓸 경우 서비스에서 받은 `repo`, `repoId`, `category`, `categoryId`를 `commentConfig.giscus`에 넣고 `type: "giscus"`를 선택한다. 다른 서비스를 쓰면 해당 설정을 사용한다. 값이나 계정을 추측하거나 외부 저장소 설정을 임의로 바꾸지 않는다.
+- **음악 버튼**: `src/config/musicConfig.ts`의 `showInNavbar: true`로 기존 버튼을 표시한다. `mode: "local"`, `local.playlist: []`이므로 아직 재생할 곡은 없다. 사용 권한이 있는 음원 파일이나 직접 재생 가능한 URL, 곡명, 아티스트를 받으면 기존 `playlist`에 `name`, `artist`, `url`, 선택적인 `cover`, `lrc`를 등록한다. 파일은 `public/assets/music/`에 두며 자동 재생이나 샘플 음악은 추가하지 않는다. 단순 서비스 공유 링크는 직접 재생 URL과 다를 수 있다.
 
 ### 후원 링크 관리
 
@@ -134,7 +144,7 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-작업 시작 시 실행 중인 블로그 서버를 확인하고, 이 저장소의 프로세스만 종료한 뒤 작업 완료 후 다시 실행한다. 다른 프로젝트의 서버는 유지한다. 개발 서버는 `pnpm dev --host 127.0.0.1 --port 4321`로 실행하며 기본 확인 주소는 `http://127.0.0.1:4321`이다. Idlerama 초안은 `http://127.0.0.1:4321/projects/idlerama/`에서 확인한다. 최종 검색은 개발용 가상 결과 대신 전체 빌드 후 확인한다.
+작업 시작 시 실행 중인 블로그 서버를 확인하고, 이 저장소의 서버만 `pnpm exec astro dev stop` 또는 관리 중인 실행 세션의 Ctrl+C로 정상 종료한 뒤 작업 완료 후 다시 실행한다. `kill`은 정상 종료가 실패했을 때만 사용한다. 다른 프로젝트의 서버는 유지한다. 개발 서버는 `pnpm dev --host 127.0.0.1 --port 4321`로 실행하며 기본 확인 주소는 `http://127.0.0.1:4321`이다. Idlerama 초안은 `http://127.0.0.1:4321/projects/idlerama/`에서 확인한다. 최종 검색은 개발용 가상 결과 대신 전체 빌드 후 확인한다.
 
 ```sh
 pnpm build

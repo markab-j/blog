@@ -17,12 +17,8 @@
 	const SCALE_STEP = 1.2;
 	const overlays = new Set();
 
-	/** 根据当前主题选择可见的 SVG/img 目标 */
+	/** Pele SVG와 PlantUML 이미지의 조작 대상을 선택한다. */
 	function selectTarget(container) {
-		var isDark = document.documentElement.classList.contains("dark");
-		var lightEl = container.querySelector(".mermaid-svg-light svg");
-		var darkEl = container.querySelector(".mermaid-svg-dark svg");
-		if (lightEl && darkEl) return isDark ? darkEl : lightEl;
 		return container.querySelector("svg, img, .diagram-panzoom-target");
 	}
 
@@ -30,29 +26,13 @@
 		if (container.dataset.pzInit === "true") return;
 		container.dataset.pzInit = "true";
 
-		// 收集所有可操作的目标元素（Mermaid 有 light+dark 两个 SVG）
-		var targets = Array.from(
-			container.querySelectorAll(
-				".mermaid-svg-light svg, .mermaid-svg-dark svg",
-			),
-		);
-		if (targets.length === 0) {
-			const single = container.querySelector(
-				"svg, img, .diagram-panzoom-target",
-			);
-			if (single) targets = [single];
-		}
-		if (targets.length === 0) return;
-
-		// 动态获取当前可见目标（主题切换后自动跟随）
-		const getActiveTarget = () => selectTarget(container) || targets[0];
+		const target = selectTarget(container);
+		if (!target) return;
 
 		const state = { scale: 1, tx: 0, ty: 0 };
 		const apply = () => {
-			targets.forEach((t) => {
-				t.style.transformOrigin = "center center";
-				t.style.transform = `translate(${state.tx}px,${state.ty}px) scale(${state.scale})`;
-			});
+			target.style.transformOrigin = "center center";
+			target.style.transform = `translate(${state.tx}px,${state.ty}px) scale(${state.scale})`;
 		};
 		const clamp = (s) => Math.min(MAX_SCALE, Math.max(MIN_SCALE, s));
 		const reset = () => {
@@ -66,7 +46,7 @@
 			const next = clamp(prev * f);
 			if (next === prev) return;
 			if (typeof ox === "number" && typeof oy === "number") {
-				const r = getActiveTarget().getBoundingClientRect();
+				const r = target.getBoundingClientRect();
 				const dx = ox - (r.left + r.width / 2);
 				const dy = oy - (r.top + r.height / 2);
 				const ratio = next / prev;
@@ -145,7 +125,7 @@
 	}
 
 	function openFullscreen(container) {
-		// 重新选择当前主题对应的目标元素
+		// 현재 다이어그램을 전체 화면에 복제한다.
 		var currentTarget = selectTarget(container);
 		if (!currentTarget) return;
 

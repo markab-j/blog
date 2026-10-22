@@ -300,40 +300,7 @@ a.card-github.fetch-error
   user-select: none
   transition: transform 0.12s ease-out
 
-// ─── Mermaid 图表特定样式 ───────────────────────────────────────────────────
-
-.mermaid-wrapper
-  text-align: center
-
-.mermaid-svg-light,
-.mermaid-svg-dark
-  display: flex
-  justify-content: center
-  align-items: center
-  overflow: hidden
-  width: 100%
-
-  svg
-    display: block
-    width: 100%
-    max-width: 100%
-    max-height: 420px
-    height: auto
-    border-radius: 0.5rem
-    user-select: none
-    transition: transform 0.12s ease-out
-
-// 深色/浅色 SVG 主题切换
-.mermaid-svg-dark
-  display: none
-
-.dark .mermaid-svg-light
-  display: none
-
-.dark .mermaid-svg-dark
-  display: flex
-
-.mermaid-error
+.pele-error
   color: #991b1b
   background: #fef2f2
   border: 1px solid #fca5a5
@@ -346,7 +313,7 @@ a.card-github.fetch-error
   p
     margin: 0 0 0.5rem 0
 
-.mermaid-fallback-code
+.pele-fallback-code
   text-align: left
   font-family: monospace
   font-size: 0.85rem
@@ -360,12 +327,12 @@ a.card-github.fetch-error
   font-weight: 400
   margin-top: 0.5rem
 
-.dark .mermaid-error
+.dark .pele-error
   color: #fecaca
   background: rgba(127, 29, 29, 0.24)
   border-color: rgba(252, 165, 165, 0.55)
 
-  .mermaid-fallback-code
+  .pele-fallback-code
     color: #f3f4f6
     background: var(--codeblock-bg)
     border-color: rgba(255, 255, 255, 0.14)
@@ -415,9 +382,7 @@ a.card-github.fetch-error
     filter: brightness(0.95)
 
 @media (max-width: 768px)
-  .pele-wrapper > svg,
-  .mermaid-svg-light svg,
-  .mermaid-svg-dark svg
+  .pele-wrapper > svg
     max-height: 400px
 
   .plantuml-image

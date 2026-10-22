@@ -193,7 +193,7 @@ src/
 │   ├── musicConfig.ts            # Music player configuration
 │   ├── navBarConfig.ts           # Navbar configuration
 │   ├── pioConfig.ts              # Mascot configuration
-│   ├── mermaidConfig.ts          # Mermaid diagram configuration
+│   ├── peleConfig.ts          # Pele diagram configuration
 │   ├── plantumlConfig.ts         # PlantUML diagram configuration
 │   ├── profileConfig.ts          # User profile configuration
 │   ├── sidebarConfig.ts          # Sidebar layout configuration

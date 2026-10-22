@@ -194,7 +194,7 @@ src/
 │   ├── musicConfig.ts            # 音楽プレーヤー設定
 │   ├── navBarConfig.ts           # ナビゲーションバー設定
 │   ├── pioConfig.ts              # マスコット設定
-│   ├── mermaidConfig.ts          # Mermaid 図表設定
+│   ├── peleConfig.ts          # Pele 図表設定
 │   ├── plantumlConfig.ts         # PlantUML 図表設定
 │   ├── profileConfig.ts          # ユーザープロフィール設定
 │   ├── sidebarConfig.ts          # サイドバーレイアウト設定

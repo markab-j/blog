@@ -9,13 +9,11 @@
 export const DIAGRAM_CONTAINER = "diagram-container";
 export const DIAGRAM_WRAPPER = "diagram-wrapper";
 
-// Mermaid
-export const MERMAID_CONTAINER = "mermaid-diagram-container";
-export const MERMAID_WRAPPER = "mermaid-wrapper";
-export const MERMAID_SVG_LIGHT = "mermaid-svg-light";
-export const MERMAID_SVG_DARK = "mermaid-svg-dark";
-export const MERMAID_ERROR = "mermaid-error";
-export const MERMAID_FALLBACK_CODE = "mermaid-fallback-code";
+// Pele
+export const PELE_CONTAINER = "pele-diagram-container";
+export const PELE_WRAPPER = "pele-wrapper";
+export const PELE_ERROR = "pele-error";
+export const PELE_FALLBACK_CODE = "pele-fallback-code";
 
 // PlantUML
 export const PLANTUML_CONTAINER = "plantuml-diagram-container";

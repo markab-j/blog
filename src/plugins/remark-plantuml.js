@@ -21,7 +21,7 @@ const DEFAULT_OPTIONS = {
  * 识别 markdown 源中的 ```plantuml``` fenced code block，并在 remark 阶段
  * 将其转换为一个携带双主题 URL 数据属性的自定义节点，供 rehype 阶段渲染。
  *
- * 转换策略：参考 `remark-mermaid.js`，保留 `hChildren`（原始代码作为文本节点）
+ * 转换策略：参考 `remark-pele.js`，保留 `hChildren`（原始代码作为文本节点）
  * 以兼容 MDX 编译器对 hProperties 的处理。
  *
  * @param {RemarkPlantumlOptions} [options] 插件选项

@@ -32,6 +32,7 @@ import {
 	expressiveCodeConfig,
 	fontConfig,
 	fontsList,
+	peleConfig,
 	plantumlConfig,
 	siteConfig,
 } from "./src/config";
@@ -48,7 +49,7 @@ import { rehypePlantuml } from "./src/plugins/rehype-plantuml.mjs";
 import { parseDirectiveNode } from "./src/plugins/remark-directive-rehype.js";
 import { remarkExcerpt } from "./src/plugins/remark-excerpt.js";
 import { remarkImageGrid } from "./src/plugins/remark-image-grid.js";
-import { remarkMermaid } from "./src/plugins/remark-mermaid.js";
+import { remarkPele } from "./src/plugins/remark-pele.js";
 import { remarkPlantuml } from "./src/plugins/remark-plantuml.js";
 import { remarkReadingTime } from "./src/plugins/remark-reading-time.mjs";
 import { remarkWikiLink } from "./src/plugins/remark-wiki-link.js";
@@ -301,7 +302,7 @@ export default defineConfig({
 				remarkDirective,
 				remarkSectionize,
 				parseDirectiveNode,
-				remarkMermaid,
+				remarkPele,
 				[remarkPlantuml, plantumlConfig],
 			],
 			rehypePlugins: [
@@ -309,7 +310,7 @@ export default defineConfig({
 				[rehypeCallouts, { theme: siteConfig.post.rehypeCallouts.theme }],
 				rehypeSlug,
 				rehypeCodeGroup,
-				rehypePele,
+				[rehypePele, peleConfig],
 				rehypePlantuml,
 				rehypeDiagramPanZoom,
 				rehypeFigure,

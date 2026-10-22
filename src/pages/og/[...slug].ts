@@ -28,11 +28,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 	});
 };
 
-// OG 图用的中文字体从 @fontsource 包本地读取，构建期不再请求 Google Fonts。
+// OG 이미지의 한국어 폰트는 설치된 @fontsource 패키지에서 읽는다.
 // 该包把 CJK 按 unicode-range 切成百余个分片，Takumi 用 subsetOf + subsetRank 把它们
 // 组织成同一个逻辑家族（font-family: subsetOf 会展开到全部分片）。
-const OG_FONT_FAMILY = "Noto Sans SC";
-const OG_FONT_DIR = "node_modules/@fontsource-variable/noto-sans-sc";
+const OG_FONT_FAMILY = "Noto Sans KR";
+const OG_FONT_DIR = "node_modules/@fontsource-variable/noto-sans-kr";
 let ogFonts: FontDetails[] | undefined;
 
 const loadOgFonts = (): FontDetails[] => {
@@ -54,7 +54,7 @@ const loadOgFonts = (): FontDetails[] => {
 			return {
 				name,
 				data: fs.readFileSync(
-					`${OG_FONT_DIR}/files/noto-sans-sc-${name}-wght-normal.woff2`,
+					`${OG_FONT_DIR}/files/noto-sans-kr-${name}-wght-normal.woff2`,
 				),
 				subsetOf: OG_FONT_FAMILY,
 				subsetRank: starts.length > 0 ? Math.min(...starts) : 0,
@@ -252,7 +252,7 @@ export async function GET({
 					flexDirection: "column",
 					backgroundColor: backgroundColor,
 					fontFamily:
-						'"Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+						'"Noto Sans KR", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
 					padding: "60px",
 				},
 				children: [

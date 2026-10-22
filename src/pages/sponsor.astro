@@ -6,6 +6,7 @@ import I18nKey from "@/i18n/i18nKey";
 import { i18n } from "@/i18n/translation";
 import MainGridLayout from "@/layouts/MainGridLayout.astro";
 import "@/styles/pages/common.css";
+import { formatDateI18n } from "@/utils/date-utils";
 import { getLqipProps } from "@/utils/lqip-utils";
 import { url } from "@/utils/url-utils";
 import "@/styles/pages/sponsor.css";
@@ -170,7 +171,7 @@ function getQrLqipProps(qrCode: string) {
                   </div>
                   {sponsor.date && (
                     <span class="text-[0.65rem] text-neutral-400 dark:text-neutral-500">
-                      {new Date(sponsor.date).toLocaleDateString()}
+                      {formatDateI18n(sponsor.date)}
                     </span>
                   )}
                 </div>
@@ -188,7 +189,7 @@ function getQrLqipProps(qrCode: string) {
   <!-- 评论区 -->
   {isCommentEnabled && (
     <div class="mt-4">
-      <Comment customPath="/sponsor/" title="sponsor"  />
+      <Comment customPath="/sponsor/" title={title}  />
     </div>
   )}
 </MainGridLayout>

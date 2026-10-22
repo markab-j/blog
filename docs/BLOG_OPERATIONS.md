@@ -27,7 +27,7 @@
 
 ## 2. 개인 정보와 이미지 변경
 
-현재 적용한 정보는 `markab-j`, GitHub `https://github.com/markab-j`, 제공받은 SVG 아이콘과 배경·푸터 이미지다. 사이트명은 계정에서 유도한 임시 이름 `markab-j 블로그`, 부제는 `개인 블로그`다. 자기소개·메일·실제 사진·개설일은 미제공 상태다.
+현재 적용한 정보는 `markab-j`, GitHub `https://github.com/markab-j`, 제공받은 SVG 아이콘과 배경·푸터 이미지다. 사이트명은 계정에서 유도한 임시 이름 `markab-j 블로그`, 부제는 `개인 블로그`다. 공개 이메일은 `contact@markab-j.com`, 개설일은 `2026-10-22`다. 자기소개와 프로필 사진은 미제공 상태다.
 
 | 항목 | 수정 위치와 방법 |
 | --- | --- |
@@ -42,7 +42,7 @@
 
 제공받은 원본 아이콘은 `/Users/jeong-yehwan/Pictures/icons/markab-j-Icon/favicon.svg`에서 복사했다. 사이트는 그 외부 경로에 의존하지 않는다. SVG를 바꾸면 PNG도 다시 생성한다. 현재 sharp를 이용해 원본 비율을 유지한 512×512 PNG를 만들었다. 프로필과 내비게이션 로고는 가벼운 SVG를 사용하며 로고 너비는 원본 비율을 유지한다. 기본 OG 이미지는 호환성을 고려해 PNG를 사용한다. 로고·아바타의 대체 텍스트는 한국어로 표시한다.
 
-배경 원본은 제공받은 `desktop.png`를 `src/assets/images/desktop.png`에 복사해 사용한다. PC·모바일 모두 `backgroundWallpaper.src.desktop/mobile`에서 `assets/images/desktop.png`를 참조하며 PC는 Astro가 기기별 너비로 최적화하며 모바일 배경은 세로 화면에서 확대될 때 뭉개지지 않도록 원본 해상도와 공통 품질값(현재 85)을 사용한다. 기본은 `mode: "fullscreen"`, `fullscreen.layout: "hero"`다. 모바일 히어로의 사진 기준 위치는 `src/styles/layout-styles.css`의 `object-position: 34% center`로 얼굴에 맞춘다. `displaySettingsConfig.wallpaperModeSwitchable: true`로 배경 모드 설정을 표시한다. 히어로 제목은 `YesYes`, 기존 타이핑 컴포넌트의 순환 문구는 `I Like Develop`, `I Like Music`, `I Like Wrting`이며 기존 GitHub 글래스 버튼을 사용한다. 제목·타이핑·파도·전환 설정은 기존 `common`, `banner`, `fullscreen`, `overlay`에서 조절한다. 푸터는 `src/assets/images/under.png`를 아래쪽에 얼굴이 빼꼼 보이도록 배치하며 모바일에서도 이미지 너비에 비례해 표시 영역 높이를 확보한다. 배경과 푸터 사진만 기본 이미지 드래그를 막고 다른 사진·텍스트 선택은 유지한다. 투명도와 원본은 보존한다. 두 이미지의 iCloud 원본 경로는 빌드에 필요하지 않다. 직접 촬영한 프로필 사진을 받으면 `src/assets/images/profile.webp`에 두고 `profileConfig.avatar`를 변경한다. 배경 영상 재생 버튼은 `playerEnable: true`로 복원했으며 영상 주소는 아직 비어 있다. 영상은 권리가 확인된 파일을 `public/assets/videos/`에 두고 `src.playerUrl`에 연결한다.
+배경 원본은 제공받은 `desktop.png`를 `src/assets/images/desktop.png`에 복사해 사용한다. PC·모바일 모두 `backgroundWallpaper.src.desktop/mobile`에서 `assets/images/desktop.png`를 참조하며 PC는 Astro가 기기별 너비로 최적화하며 모바일 배경은 세로 화면에서 확대될 때 뭉개지지 않도록 원본 해상도와 공통 품질값(현재 85)을 사용한다. 기본은 `mode: "fullscreen"`, `fullscreen.layout: "hero"`다. 모바일 히어로의 사진 기준 위치는 `src/styles/layout-styles.css`의 `object-position: 34% center`로 얼굴에 맞춘다. `displaySettingsConfig.wallpaperModeSwitchable: true`로 배경 모드 설정을 표시한다. 히어로 제목은 `YesYes`, 기존 타이핑 컴포넌트의 순환 문구는 `I Like Develop`, `I Like Music`, `I Like Wrting`이며 글래스 버튼은 원래 순서인 GitHub → 이메일 → 후원 → RSS로 표시한다. 제목·타이핑·파도·전환 설정은 기존 `common`, `banner`, `fullscreen`, `overlay`에서 조절한다. 푸터는 `src/assets/images/under.png`를 아래쪽에 얼굴이 빼꼼 보이도록 배치하며 모바일에서도 이미지 너비에 비례해 표시 영역 높이를 확보한다. 배경과 푸터 사진만 기본 이미지 드래그를 막고 다른 사진·텍스트 선택은 유지한다. 투명도와 원본은 보존한다. 두 이미지의 iCloud 원본 경로는 빌드에 필요하지 않다. 직접 촬영한 프로필 사진을 받으면 `src/assets/images/profile.webp`에 두고 `profileConfig.avatar`를 변경한다. 배경 영상 재생 버튼은 `playerEnable: true`로 복원했으며 영상 주소는 아직 비어 있다. 영상은 권리가 확인된 파일을 `public/assets/videos/`에 두고 `src.playerUrl`에 연결한다.
 
 외부 게임·애니메이션 이미지나 무작위 이미지 API를 사용자 사진 대신 쓰지 않는다. 새 이미지는 WebP/AVIF 등으로 크기를 줄이고, 본문에는 내용을 설명하는 대체 텍스트를 쓴다. 저작권이나 위치 정보 등 공개 범위를 확인한다.
 
@@ -116,15 +116,58 @@ Idlerama의 외부 연결은 홈페이지 `https://idlerama.markab-j.com`을 사
 
 API 비밀키는 환경 변수로만 관리한다.
 
-음악 버튼은 내비게이션에서 켜져 있고 사이드바는 꺼져 있으며 재생 목록은 비어 있다. 후원은 Ko-fi만 활성화되어 있으며, 후원자·이웃·갤러리·북마크 목록은 비어 있다. 실제 자료를 등록한 뒤 관련 스위치를 켠다. 캐릭터 모델은 비활성화했고 예시 미디어는 보관 폴더로 이동했다. 통계 서비스는 ID가 없어 동작하지 않는다. 표시 설정·다크 모드·테마 색상·목록 전환 등 기존 기능은 유지한다.
+공지 위젯, 내비게이션·사이드바 음악, 최근 한마디 위젯이 켜져 있으며 재생 목록은 비어 있다. 모바일 하단에서도 공지와 최근 한마디를 표시한다. 후원은 Ko-fi만 활성화되어 있으며, 후원자·이웃·갤러리·북마크 목록은 비어 있다. 실제 자료를 등록한 뒤 관련 스위치를 켠다. 캐릭터 모델은 비활성화했고 예시 미디어는 보관 폴더로 이동했다. 통계 서비스는 ID가 없어 동작하지 않는다. 표시 설정·다크 모드·테마 색상·목록 전환 등 기존 기능은 유지한다.
 
 ### 사진 앨범·즐겨찾기·한마디·방명록·음악
 
 - **사진 앨범** `/gallery/`: `src/config/galleryConfig.ts`의 `albums`에 앨범을 등록하고 `public/gallery/<앨범 ID>/`에 제공받은 사진을 넣는다. 현재는 빈 목록이며 데모 이미지를 되살리지 않는다.
 - **즐겨찾기** `/booknav/`: `src/config/booknavConfig.ts`의 그룹과 `items`에 실제 제목·URL을 등록한다. 아직 사용자 지정 링크는 없다.
-- **한마디** `/dynamic/`: 기존 Dynamic을 한국어에서 ‘한마디’로 표시한다. 짧은 기록은 `src/content/dynamic/`의 Markdown으로 관리하고 외부 Memos 연결은 끈 상태다. 기존 Dynamic 스키마는 초안 필터가 없으므로 사용자의 명시적 공개 요청이 있기 전에는 이 폴더에 새 기록을 생성하지 않는다. 게시를 요청받으면 `pnpm new-dynamic`으로 생성하고 본문과 서울 시간대를 포함한 `published`를 확인한다.
+- **한마디** `/dynamic/`: 기존 Dynamic을 한국어에서 ‘한마디’로 표시한다. 짧은 기록은 `src/content/dynamic/`의 Markdown으로 관리하고 외부 Memos 연결은 끈 상태다. `pnpm new-dynamic "내용"`은 `draft: true`, `lang: ko`인 초안을 만든다. 개발 서버에서만 표시하고 운영 빌드의 API·한마디 페이지·최근 위젯에서는 제외한다. `published`는 시간대가 명확한 ISO 시각이며 화면에서는 서울 시간으로 표시한다. 공개 요청을 받은 뒤 검토하고 `draft: false`로 변경한다.
 - **방명록** `/guestbook/`: Giscus가 연결되어 있으며 댓글은 `markab-j/blog`의 `Announcements` Discussions에 저장된다. `src/content/spec/guestbook.md`가 소개 본문이다. Giscus를 쓸 경우 서비스에서 받은 `repo`, `repoId`, `category`, `categoryId`를 `commentConfig.giscus`에 넣고 `type: "giscus"`를 선택한다. 다른 서비스를 쓰면 해당 설정을 사용한다. 값이나 계정을 추측하거나 외부 저장소 설정을 임의로 바꾸지 않는다.
-- **음악 버튼**: `src/config/musicConfig.ts`의 `showInNavbar: true`로 기존 버튼을 표시한다. `mode: "local"`, `local.playlist: []`이므로 아직 재생할 곡은 없다. 사용 권한이 있는 음원 파일이나 직접 재생 가능한 URL, 곡명, 아티스트를 받으면 기존 `playlist`에 `name`, `artist`, `url`, 선택적인 `cover`, `lrc`를 등록한다. 파일은 `public/assets/music/`에 두며 자동 재생이나 샘플 음악은 추가하지 않는다. 단순 서비스 공유 링크는 직접 재생 URL과 다를 수 있다.
+- **음악 버튼**: `src/config/musicConfig.ts`의 `showInNavbar: true`, `showInSidebar: true`와 사이드바의 `type: "music", enable: true`로 기존 버튼과 위젯을 표시한다. `mode: "local"`, `local.playlist: []`이므로 아직 재생할 곡은 없다. 사용 권한이 있는 음원 파일이나 직접 재생 가능한 URL, 곡명, 아티스트를 받으면 기존 `playlist`에 `name`, `artist`, `url`, 선택적인 `cover`, `lrc`를 등록한다. 파일은 `public/assets/music/`에 두며 자동 재생이나 샘플 음악은 추가하지 않는다. 단순 서비스 공유 링크는 직접 재생 URL과 다를 수 있다.
+
+### CLI로 콘텐츠 추가
+
+저장소 루트에서 실행한다. 경로·내용에 공백이 있으면 따옴표로 감싼다. 세 명령 모두 `--help`, `--dry-run`을 지원한다. 미리보기는 파일을 변경하지 않는다.
+
+```sh
+# 사진 원본을 public/gallery/trip-2026/에 복사하고 앨범 설정을 추가
+pnpm new-gallery --id trip-2026 --title "여행 사진" --date 2026-10-22 "/사진/첫 사진.jpg" "/사진/두 번째.png"
+
+# 새 즐겨찾기 그룹 생성과 링크 등록
+pnpm new-bookmark --group dev --group-name "개발" --title "Astro" --url https://astro.build --description "Astro 공식 사이트"
+# 기존 그룹에 링크 추가: --group-name 생략
+pnpm new-bookmark --group dev --title "TypeScript" --url https://www.typescriptlang.org
+
+# 한국어 한마디 초안 생성 (선택: --location "장소", --pinned)
+pnpm new-dynamic "오늘의 짧은 기록"
+```
+
+앨범 ID·그룹 ID는 영문 소문자·숫자·단어 사이 하이픈을 사용한다. 앨범은 JPG/JPEG·PNG·WebP·AVIF·GIF 파일 경로를 한 개 이상 받으며 선택적으로 `--description`, `--location`을 지정한다. 날짜 생략 시 서울 기준 오늘 날짜다. 원본을 이동·압축하지 않고 `001`, `002` 순번으로 복사하며 첫 사진이 표지가 된다. 기존 앨범 ID·폴더나 같은 그룹의 중복 URL은 덮어쓰지 않는다. 사진의 공개 범위와 용량은 등록 전에 확인한다.
+
+앨범·즐겨찾기는 명령을 실행하면 기존 설정 배열에 직접 추가되고 다음 빌드에 포함된다. 별도 초안 기능은 없다. 한마디는 기본 초안이며 개발 서버에서 확인한 뒤 명시적 발행 의도에 따라 `draft: false`로 바꾼다. 이 명령은 Git 커밋·푸시·배포를 하지 않는다.
+
+### 배경 영상 연결
+
+현재 배경 플레이어는 HTML `<video>`이므로 YouTube의 `watch?v=...`, `youtu.be/...`, `/embed/...` 페이지 주소를 `playerUrl`에 넣을 수 없다. YouTube는 [공식 IFrame Player API](https://developers.google.com/youtube/iframe_api_reference) 기반 별도 플레이어 구현이 필요하다. 현재 그 연결은 구현하지 않았다.
+
+현재 구조에서 쓰는 방법은 다음과 같다.
+
+1. 직접 재생할 수 있는 MP4(일반적으로 H.264/AAC) 파일을 `public/assets/videos/intro.mp4`에 넣는다. 외부 HTTPS 동영상 파일 주소도 가능하나 페이지 주소가 아닌 실제 영상 응답이어야 한다.
+2. `src/config/backgroundWallpaper.ts`에서 `playerEnable: true`, `src.playerUrl: "/assets/videos/intro.mp4"`로 설정한다.
+3. 개발 서버에서 우측 상단 재생 버튼을 눌러 재생·일시정지·모바일 동작을 확인한다. 현재는 URL이 비어 있어 버튼만 복원된 상태다.
+4. 여러 영상은 `playerUrl: ["/assets/videos/intro.mp4", "/assets/videos/another.mp4"]`, `common.playerMode: "order"` 또는 `"random"`으로 지정한다. 브라우저 정책에 따라 소리 재생이 제한될 수 있다.
+
+### 방문 분석 등록
+
+개설일과 방문 분석은 별개다. `siteConfig.siteStartDate: "2026-10-22"`는 운영 일수 계산이며 방문자를 수집하지 않는다. 분석 서비스는 계정 등록 후 발급받은 ID가 필요하다. 현재 ID가 없어 수집하지 않는다. 아래 중 한 서비스를 골라 연결한다.
+
+- **Google Analytics 4**: [공식 설정 안내](https://support.google.com/analytics/answer/9304153?hl=ko)에 따라 계정·속성을 만들고 보고 시간대를 대한민국으로 설정한다. 데이터 스트림 → 웹에서 `https://blog.markab-j.com`을 등록하고 측정 ID(`G-...`)를 복사한다. `src/config/analyticsConfig.ts`의 `googleAnalyticsId`에 넣는다. 기존 컴포넌트가 태그를 삽입하므로 HTML에 태그를 중복 추가하지 않는다. 빌드·배포 후 운영 사이트를 열고 실시간 보고서로 수신을 확인한다.
+- **Umami**: Umami Cloud 계정에서 Websites → Add website, 이름과 도메인 `blog.markab-j.com`을 등록한다. [웹사이트 추가](https://docs.umami.is/docs/add-a-website), [추적 코드 확인](https://docs.umami.is/docs/collect-data) 안내에 따라 추적 코드의 `data-website-id`를 `umamiAnalytics.websiteId`에 넣는다. 코드의 `src`도 현재 `scriptUrl`과 같은지 확인하고 다르면 발급된 주소로 바꾼다. 세션 녹화는 기본 비활성 상태다. 빌드·배포 후 Umami 대시보드에서 방문을 확인한다.
+
+### 글 라이선스
+
+사용자가 선택한 기본 글 라이선스는 [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.ko)이다. 저작자 표시와 라이선스 링크를 유지한 비영리 공유를 허용하고 수정본 배포는 허용하지 않는다. `src/config/licenseConfig.ts`의 이름·링크가 글에 표시된다. 개별 글의 `licenseName`, `licenseUrl`이 있으면 그 값을 우선한다. 권리자가 허락한 CC 이용은 조건을 준수하는 동안 철회할 수 없으며, 별도 허락이나 법률상 예외까지 금지하는 의미는 아니다. Firefly 코드의 MIT와 제삼자 자산의 원래 라이선스는 유지한다.
 
 ### 후원 링크 관리
 
@@ -229,4 +272,4 @@ git merge upstream/master
 - **글 미노출**은 `draft`, slug, 스키마·날짜 형식, 페이지 스위치를 확인한다. **이미지 오류**는 `/` 유무와 `public`/`src` 기준 경로·대소문자를 확인한다.
 - **검색 오류**는 전체 `pnpm build` 후 `dist/pagefind/pagefind.js`와 한국어 인덱스를 확인한다. 개발용 검색 결과는 실제 검색 검증이 아니다.
 - **환경 오류**는 Node·pnpm 버전과 lockfile을 먼저 확인한다. lockfile을 임의로 재생성하지 않는다. 패키지 설치나 IPC가 샌드박스로 차단되면 승인된 실행 경로를 이용하고 우회하지 않는다.
-- **미제공 자료**는 원하는 정식 사이트명·부제·자기소개·사진·배너·추가 소셜 링크·개설일·댓글 서비스 설정이다. 받은 뒤 해당 설정만 변경하고 필요한 검사와 로컬 커밋을 수행한다.
+- **미제공 자료**는 원하는 정식 사이트명·부제·자기소개·사진·배너·추가 소셜 링크·추가 영상과 음원이다. 받은 뒤 해당 설정만 변경하고 필요한 검사와 로컬 커밋을 수행한다.

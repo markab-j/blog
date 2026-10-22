@@ -158,8 +158,8 @@ let _siteLogoPromise:
 
 /**
  * 站点 publisher 的 logo（Organization.logo）。
- * 优先用 siteConfig.navbar.logo（主题真实 logo，image / url 类型）；
- * 若 navbar 用图标库 icon（无图片 URL）或未配置，则回退到站点 favicon。
+ * 优先用 navbar 的栅格图片，支持 public、src 和远程 URL；
+ * SVG / icon 或未配置时回退到 favicon，保证社交分享图片兼容性。
  */
 export function getSiteLogo(): Promise<{
 	url: string;
@@ -178,15 +178,16 @@ async function computeSiteLogo(): Promise<{
 	height?: number;
 } | null> {
 	const logo = siteConfig.navbar?.logo;
-	if (logo) {
-		if (logo.type === "url") return { url: logo.value };
-		if (logo.type === "image") {
-			const info = await getLocalImageInfo(logo.value, "", siteConfig.site_url);
-			return info
-				? { url: info.url, width: info.width, height: info.height }
-				: null;
+	// SVG navbar logos need a raster fallback for social sharing.
+	if (logo && (logo.type === "url" || logo.type === "image")) {
+		if (!/\.svg(?:[?#]|$)/i.test(logo.value)) {
+			const info = await toAbsoluteImageInfo(
+				logo.value,
+				"",
+				siteConfig.site_url,
+			);
+			if (info) return info;
 		}
-		// icon 类型无图片 URL → 落到 favicon 兜底
 	}
 	return getFaviconAsLogo();
 }

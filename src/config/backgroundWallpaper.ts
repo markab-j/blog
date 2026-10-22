@@ -89,6 +89,24 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 					url: "https://github.com/markab-j",
 					showName: true,
 				},
+				{
+					name: "이메일",
+					icon: "fa7-solid:envelope",
+					url: "mailto:contact@markab-j.com",
+					showName: true,
+				},
+				{
+					name: "후원",
+					icon: "material-symbols:favorite",
+					url: "/sponsor/",
+					showName: true,
+				},
+				{
+					name: "RSS",
+					icon: "fa7-solid:rss",
+					url: "/rss/",
+					showName: true,
+				},
 			],
 		},
 		// 壁纸轮播配置，横幅壁纸和全屏壁纸共享，仅在配置多张图片时生效

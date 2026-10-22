@@ -14,6 +14,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "type-check": "tsc --noEmit --isolatedDeclarations",
+    "new-gallery": "tsx scripts/new-content.mjs gallery",
+    "new-bookmark": "tsx scripts/new-content.mjs bookmark",
     "new-dynamic": "tsx scripts/new-dynamic.js",
     "new-d": "tsx scripts/new-dynamic.js",
     "new-post": "node scripts/new-post.js",

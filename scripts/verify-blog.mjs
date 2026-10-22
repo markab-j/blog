@@ -18,6 +18,14 @@ const home = read("index.html");
 assert.match(home, /<html[^>]+lang="ko"/);
 assert.match(home, /property="og:locale" content="ko_KR"/);
 assert.match(home, /markab-j/);
+assert.match(
+	home,
+	/property="og:image" content="https:\/\/blog\.markab-j\.com\/favicon\/markab-j\.png"/,
+);
+assert.match(
+	home,
+	/name="twitter:image" content="https:\/\/blog\.markab-j\.com\/favicon\/markab-j\.png"/,
+);
 assert.match(home, /rel="canonical" href="https:\/\/blog\.markab-j\.com\/"/);
 assert.match(read("rss.xml"), /<language>ko-KR<\/language>/);
 assert.equal(read("CNAME").trim(), "blog.markab-j.com");
@@ -52,6 +60,17 @@ for (const file of files("src/content/posts")) {
 	);
 }
 const errors = [];
+const dynamics = JSON.parse(read("api/dynamic.json"));
+for (const file of files("src/content/dynamic")) {
+	if (!file.endsWith(".md")) continue;
+	const { data } = matter.read(file);
+	if (data.draft === false) continue;
+	const id = path.relative("src/content/dynamic", file).replace(/\.md$/, "");
+	assert.ok(
+		!dynamics.some((entry) => entry.id === id),
+		`Draft dynamic published: ${file}`,
+	);
+}
 for (const file of htmlFiles) {
 	const html = fs.readFileSync(file, "utf8");
 	const pageUrl = new URL(

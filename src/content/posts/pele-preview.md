@@ -6,6 +6,7 @@ tags: [Mermaid, Pele]
 category: 개발
 draft: true
 lang: ko
+comment: false
 ---
 
 Mermaid 코드 블록을 Pele로 렌더링한 미리보기입니다. 라이트·다크 모드와 확대·축소, 초기화, 전체 화면을 확인할 수 있습니다.

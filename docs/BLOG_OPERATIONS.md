@@ -25,6 +25,10 @@
 
 설정 파일은 기본 사이트·프로필·배경·내비게이션 외에 사이드바, 공지, 폰트, 댓글, 통계, 음악, 후원, 갤러리, 이웃, 북마크, 일상, 이미지, 표시 설정, 효과, 라이선스, 코드 하이라이트, Mermaid, PlantUML, 캐릭터 모델을 나눠 관리한다. 기능을 추가하기 전에 해당 설정의 기존 기능부터 확인한다.
 
+Mermaid 코드 블록은 `remark-mermaid.js`로 추출하고 `rehype-pele.mjs`에서 Pele의 정적 SVG로 렌더링한다. 글에는 기존처럼 `mermaid` 언어의 코드 블록을 사용한다. 색상은 `src/styles/markdown-extend.styl`의 `.pele`·`.dark .pele` CSS 변수로 조정하며, 확대·축소·전체 화면은 기존 공통 다이어그램 스크립트를 사용한다. `src/content/posts/pele-preview.md`는 개발 서버에서 확인할 수 있는 한국어 초안이다.
+
+원본 Merman 플러그인과 의존성·`mermaidConfig.ts`는 보존하지만 현재 Pele 렌더링에는 사용하지 않는다. Merman으로 되돌릴 때는 `astro.config.mjs`에서 `rehypePele` 대신 기존 `[rehypeMermaid, mermaidConfig]`를 연결한다.
+
 ## 2. 개인 정보와 이미지 변경
 
 현재 적용한 정보는 `markab-j`, GitHub `https://github.com/markab-j`, 제공받은 SVG 아이콘과 배경·푸터 이미지다. 사이트명은 계정에서 유도한 임시 이름 `markab-j 블로그`, 부제는 `개인 블로그`다. 공개 이메일은 `contact@markab-j.com`, 개설일은 `2026-10-22`다. 자기소개와 프로필 사진은 미제공 상태다.

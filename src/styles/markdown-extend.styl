@@ -274,6 +274,32 @@ a.card-github.fetch-error
   .diagram-wrapper
     padding: 1rem
 
+// Pele SVG 자체에 테마를 지정해 전체 화면으로 복제해도 색상을 유지한다.
+.pele
+  --pele-bg: var(--card-bg)
+  --pele-fg: var(--deep-text)
+  --pele-muted: var(--content-meta)
+  --pele-line: var(--deep-text)
+  --pele-surface: var(--btn-regular-bg)
+  --pele-surface-alt: var(--page-bg)
+  --pele-border: var(--content-meta)
+  --pele-accent: var(--primary)
+  background: var(--pele-bg)
+  border-radius: 0.5rem
+
+.dark .pele
+  --pele-fg: #e5e7eb
+  --pele-line: #e5e7eb
+
+.pele-wrapper > svg
+  display: block
+  width: 100%
+  max-width: 100%
+  max-height: 420px
+  height: auto
+  user-select: none
+  transition: transform 0.12s ease-out
+
 // ─── Mermaid 图表特定样式 ───────────────────────────────────────────────────
 
 .mermaid-wrapper
@@ -389,6 +415,7 @@ a.card-github.fetch-error
     filter: brightness(0.95)
 
 @media (max-width: 768px)
+  .pele-wrapper > svg,
   .mermaid-svg-light svg,
   .mermaid-svg-dark svg
     max-height: 400px

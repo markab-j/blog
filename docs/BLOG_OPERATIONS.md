@@ -17,7 +17,7 @@
 | `src/pages/`, `src/layouts/`, `src/components/`, `src/styles/` | 라우트·레이아웃·UI·스타일 |
 | `src/i18n/` | 번역 키·언어별 번역·선택 로직 |
 | `scripts/` | 초안 생성·미디어 처리·검색 인덱스·산출물 검증 |
-| `.github/workflows/` | PR 검사와 수동 GitHub Pages 배포 |
+| `.github/workflows/` | PR·푸시 검사와 master 푸시 GitHub Pages 배포 |
 | `archive/firefly-demo/` | 이전 샘플 콘텐츠·설정·제삼자 미디어 원본. 사이트로 배포하지 않음 |
 | `dist/` | 빌드 산출물. 직접 수정하거나 커밋하지 않음 |
 
@@ -99,7 +99,7 @@ Idlerama의 외부 연결은 홈페이지 `https://idlerama.markab-j.com`을 사
 
 `category`는 한 개의 문자열, `tags`는 문자열 배열이다. 한국어 명칭과 대소문자를 일관되게 사용한다. 이 값으로 목록·검색·사이드바가 자동 구성되므로 별도 페이지를 만들지 않는다. 연재는 `series`와 `seriesOrder`로 관리한다.
 
-글 이미지 파일은 글 폴더 가까이 두고 `image: "./cover.webp"`, 본문 `![이미지 설명](./screenshot.webp)`처럼 상대 경로로 연결한다. 내부 글은 실제 `/posts/<slug>/` 경로를 확인한다. slug 변경은 기존 링크를 깨뜨릴 수 있으므로 사전 확인 없이 바꾸지 않는다. 외부 링크는 발행·정기 점검 때 실제 응답과 내용을 확인하고 오래된 링크를 대체할 때 사용자 의도를 보존한다. `pnpm verify:blog`는 외부 사이트나 본문 의미를 검사하지 않는다.
+글 이미지 파일은 글 폴더 가까이 두고 `image: "./cover.webp"`, 본문 `![이미지 설명](./screenshot.webp)`처럼 상대 경로로 연결한다. 내부 글은 실제 `/posts/<slug>/` 경로를 확인한다. slug 변경은 기존 링크를 깨뜨릴 수 있으므로 사전 확인 없이 바꾸지 않는다. 외부 링크는 발행·정기 점검 때 실제 응답과 내용을 확인하고 오래된 링크를 대체할 때 사용자 의도를 보존한다.
 
 ## 6. 댓글과 선택 기능
 
@@ -184,11 +184,11 @@ pnpm new-dynamic "오늘의 짧은 기록"
 
 페이지 제목·설명·안내는 `sponsorConfig.title/description/usage`, 공통 후원·공유 버튼과 안내 문구는 `src/i18n/languages/ko.ts`의 `sponsor*` 키에서 수정한다. 후원자 목록은 `sponsors: []`, `showSponsorsList: false`를 유지하며 실명·금액 등을 공개하려면 당사자의 공개 허락을 먼저 확인한다. 후원자 날짜는 기존 한국어·서울 시간 포맷 함수를 사용한다.
 
-변경 후 `pnpm check`, `pnpm type-check`, `pnpm build`, `pnpm verify:blog`를 실행하고 `/sponsor/`에 활성화한 수단만 표시되는지와 게시글 하단의 후원 링크(`/sponsor/`)를 확인한다. 링크를 클릭해 결제를 진행할 필요는 없다.
+변경 후 `pnpm check`, `pnpm type-check`, `pnpm build`를 실행하고 `/sponsor/`에 활성화한 수단만 표시되는지와 게시글 하단의 후원 링크(`/sponsor/`)를 확인한다. 링크를 클릭해 결제를 진행할 필요는 없다.
 
 ## 7. 로컬 환경과 개발
 
-`package.json` 기준 **Node >=22.23.0**, **pnpm 11.22.0**을 사용한다. CI는 Node 22의 최신 패치를 설치하고 pnpm/action-setup은 `packageManager`에서 버전을 읽는다. 원본 요구 버전을 우선하며 독단적으로 최신 메이저로 올리지 않는다.
+`package.json` 기준 **Node >=22.23.0**, **pnpm 11.22.0**을 사용한다. CI 검사는 Node 22·23, 배포는 Node 22를 사용한다. pnpm은 `packageManager`에 지정된 버전을 따른다. 원본 요구 버전을 우선하며 독단적으로 최신 메이저로 올리지 않는다.
 
 ```sh
 corepack enable
@@ -211,12 +211,9 @@ pnpm preview
 pnpm check
 pnpm type-check
 pnpm build
-pnpm verify:blog
 ```
 
 `pnpm build`는 GitHub 카드 데이터·LQIP·선택적 VNDB 이미지 처리, Astro 정적 빌드, 비사용 모델 산출물 정리, 폰트 부분 집합화, 인라인 스크립트 최소화, Pagefind 인덱스를 포함한다. `pnpm astro build`만 실행하면 후처리와 검색 인덱스가 빠지므로 배포용으로 사용하지 않는다.
-
-`verify:blog`는 결과물의 한국어 lang/OG locale, 도메인·CNAME·RSS 언어·robots/sitemap, 로컬 리소스·페이지 링크, 사용자 노출 중국어 누락, 데모 작성자·미디어·초안 유출을 검사한다. 외부 URL과 JavaScript 실행·접근성 전체·모바일 렌더링은 검증하지 않는다. 공개 글이 한국어 이외의 한자 원문을 포함한다면 중국어 탐지 결과는 실제 번역 누락인지 검토 후 검사 규칙을 조정한다.
 
 브라우저 확인 항목: 홈의 빈 글 안내, 소개, 메뉴, 검색과 결과 없음, 카테고리·태그·아카이브, 404, 화면 설정, 375px/768px/데스크톱 폭의 잘림, 라이트/다크 전환과 유지, 키보드 조작, 이미지 로드와 대체 텍스트. UI 변경 PR에는 가능하면 스크린샷을 첨부한다. Pagefind는 한국어 검색을 지원하지만 어간 확장 검색은 지원하지 않는다.
 
@@ -226,18 +223,11 @@ pnpm verify:blog
 
 `public/CNAME`과 `siteConfig.site_url`은 `blog.markab-j.com`을 가리킨다. 루트 경로 배포이므로 Astro `base: "/"`를 유지한다. RSS `/rss.xml`, Atom `/atom.xml`, 사이트맵 `/sitemap-index.xml`, 검색 `/pagefind/`도 같은 도메인을 사용한다. RSS `lastBuildDate`는 표준 HTTP/RSS UTC 형식이며 페이지 표시 날짜는 서울 시간이다.
 
-기존 워크플로를 재사용해 PR·master 푸시에 검사와 전체 빌드를 실행한다. 배포는 의도치 않은 최초 전환을 막기 위해 **수동 실행 전용**이다. `confirm_deployment`가 체크되지 않으면 배포하지 않는다.
+Firefly 원본 워크플로를 사용한다. `build.yml`은 PR·master 푸시에 Astro 검사와 빌드를 실행하고, `biome.yml`은 Biome 검사를 실행한다. `deploy.yml`은 master 푸시 또는 Actions의 수동 실행으로 사이트를 빌드해 GitHub Pages에 배포한다. 별도 승인 입력이나 추가 블로그 전용 검사는 없다.
 
-실제 전환 전 소유자가 확인할 외부 설정:
+최초 설정은 GitHub `markab-j/blog`의 Settings → Pages에서 게시 소스를 **GitHub Actions**, Custom domain을 `blog.markab-j.com`으로 지정한다. DNS의 `blog` CNAME은 `markab-j.github.io`를 가리키도록 설정하고 HTTPS를 확인한다. 저장소 설정과 DNS 변경은 사용자가 요청했을 때만 수행한다.
 
-1. GitHub `markab-j/blog`의 Settings → Pages 게시 소스가 **GitHub Actions**인지 확인한다.
-2. 기존 서비스와 DNS를 먼저 점검하고 변경 승인을 받는다. Custom domain이 `blog.markab-j.com`인지, 해당 DNS가 개인 GitHub Pages를 가리키는지, HTTPS가 정상인지 확인한다. 기존 값을 무작정 덮어쓰지 않는다.
-3. 필요한 경우 `github-pages` environment의 master 배포 허용·검토 규칙을 소유자가 구성한다.
-4. 승인된 변경을 푸시한 뒤 Build and Check가 통과하는지 확인한다. 로컬 커밋만으로는 Actions가 실행되지 않는다.
-5. Actions → Deploy to GitHub Pages → Run workflow에서 **master**를 선택하고 운영 배포 승인 입력을 체크한다.
-6. 배포 성공 후 실제 도메인에서 홈·글·404·한국어 검색·RSS·사이트맵·이미지·HTTPS를 확인한다.
-
-현재 외부 Pages/DNS 설정이나 최초 운영 배포는 실행하지 않았다. 워크플로의 실제 GitHub 실행도 로컬 검증과 별개다. 자동 푸시 배포로 바꾸려면 최초 전환 확인 후 별도로 요청한다.
+설정 후 master에 푸시하면 배포가 실행된다. 수동으로 실행하려면 Actions → Deploy to GitHub Pages → Run workflow에서 **master**를 선택한다. 배포 후 실제 도메인에서 홈·글·404·검색·RSS·사이트맵·이미지·HTTPS를 확인한다.
 
 공식 참고: [GitHub Pages 사용자 워크플로](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages).
 
@@ -253,7 +243,7 @@ git switch -c chore/firefly-update
 git merge upstream/master
 ```
 
-프로필·도메인·콘텐츠·한국어·운영 규칙을 우선 보존한다. 특히 상위 변경으로 `src/content/posts`, `public`에 데모가 다시 추가되지 않는지 확인한다. 충돌에 `ours`/`theirs`를 일괄 적용하지 않고 파일별 의도를 검토한다. 필요할 때만 개인 설정을 작은 모듈로 분리한다. 위 네 가지 검증과 브라우저 확인 후 리뷰하며, master 병합·푸시·배포는 승인 범위를 따른다. force-push, 이력 재작성, 저장소 관리자 작업은 하지 않는다.
+프로필·도메인·콘텐츠·한국어·운영 규칙을 우선 보존한다. 특히 상위 변경으로 `src/content/posts`, `public`에 데모가 다시 추가되지 않는지 확인한다. 충돌에 `ours`/`theirs`를 일괄 적용하지 않고 파일별 의도를 검토한다. 필요할 때만 개인 설정을 작은 모듈로 분리한다. 기존 검사·빌드와 브라우저 확인 후 리뷰하며, master 병합·푸시·배포는 승인 범위를 따른다. force-push, 이력 재작성, 저장소 관리자 작업은 하지 않는다.
 
 원본: [CuteLeaf/Firefly](https://github.com/CuteLeaf/Firefly).
 

@@ -1,7 +1,7 @@
 <script lang="ts">
 import { onMount, tick } from "svelte";
 import ClientPagination from "@/components/common/ClientPagination.svelte";
-import { formatTimezoneOffset } from "@/utils/date-utils";
+import { formatDateI18n, formatTimezoneOffset } from "@/utils/date-utils";
 import { fetchMemos } from "@/utils/memos-adapter";
 import { registerDynamicGallery } from "./dynamic-gallery";
 import { registerDynamicInlineComments } from "./dynamic-inline-comments";
@@ -165,7 +165,7 @@ function createItem(entry: DynamicData) {
 			time.textContent = new Intl.DateTimeFormat(
 				document.documentElement.lang || undefined,
 				{
-					timeZone: siteConfig.timezone || "UTC",
+					timeZone: timezone || "UTC",
 					year: "numeric",
 					month: "2-digit",
 					day: "2-digit",

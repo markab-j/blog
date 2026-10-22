@@ -28,6 +28,12 @@ export const profileConfig: ProfileConfig = {
 			showName: false,
 		},
 		{
+			name: "이메일",
+			icon: "fa7-solid:envelope",
+			url: "mailto:contact@markab-j.com",
+			showName: false,
+		},
+		{
 			name: "RSS",
 			icon: "fa7-solid:rss",
 			url: "/rss/",

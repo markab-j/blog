@@ -44,15 +44,15 @@ const wallpaperPosition = state.isFullscreenMode
             <div class:list={["slide-item block lg:hidden", index === 0 && "active"]} data-index={index}>
                 <template>
                     <ImageWrapper
+                        draggable={false}
                         alt={i18n(I18nKey.mobileBackgroundLabel)}
                         class="object-cover h-full w-full"
                         src={src}
                         position={wallpaperPosition}
-                        width={828}
-                        widths={[640, 828]}
+                        layout="none"
                         sizes="100vw"
                         loading="eager"
-                        quality={state.mobileQuality}
+                        quality={state.configQuality}
                     />
                 </template>
             </div>
@@ -61,6 +61,7 @@ const wallpaperPosition = state.isFullscreenMode
             <div class:list={["slide-item hidden lg:block", index === 0 && "active"]} data-index={index}>
                 <template>
                     <ImageWrapper
+                        draggable={false}
                         alt={i18n(I18nKey.desktopBackgroundLabel)}
                         class="object-cover h-full"
                         src={src}
@@ -78,23 +79,24 @@ const wallpaperPosition = state.isFullscreenMode
             {backgroundImages.mobile.length > 0 && (
                 <div class="slide-item active block lg:hidden">
                     <ImageWrapper
+                        draggable={false}
                         alt={i18n(I18nKey.mobileBackgroundLabel)}
                         class="object-cover h-full w-full"
                         src={backgroundImages.mobile[0]}
                         position={wallpaperPosition}
-                        width={828}
-                        widths={[640, 828]}
+                        layout="none"
                         sizes="100vw"
                         loading="eager"
                         fetchpriority="high"
                         fadeIn={false}
-                        quality={state.mobileQuality}
+                        quality={state.configQuality}
                     />
                 </div>
             )}
             {backgroundImages.desktop.length > 0 && (
                 <div class="slide-item active hidden lg:block">
                     <ImageWrapper
+                        draggable={false}
                         alt={i18n(I18nKey.desktopBackgroundLabel)}
                         class="object-cover h-full"
                         src={backgroundImages.desktop[0]}
@@ -120,15 +122,15 @@ const wallpaperPosition = state.isFullscreenMode
             <div class="banner-image-slot absolute inset-0 block lg:hidden">
                 <template>
                     <ImageWrapper
+                        draggable={false}
                         alt={i18n(I18nKey.mobileBackgroundLabel)}
                         class="object-cover h-full w-full"
                         src={backgroundImages.mobile[0]}
                         position={wallpaperPosition}
-                        width={828}
-                        widths={[640, 828]}
+                        layout="none"
                         sizes="100vw"
                         loading="eager"
-                        quality={state.mobileQuality}
+                        quality={state.configQuality}
                     />
                 </template>
             </div>
@@ -137,6 +139,7 @@ const wallpaperPosition = state.isFullscreenMode
             <div class="banner-image-slot absolute inset-0 hidden lg:block">
                 <template>
                     <ImageWrapper
+                        draggable={false}
                         alt={i18n(I18nKey.desktopBackgroundLabel)}
                         class="object-cover h-full"
                         src={backgroundImages.desktop[0]}
@@ -154,23 +157,24 @@ const wallpaperPosition = state.isFullscreenMode
             {backgroundImages.mobile.length > 0 && (
                 <div class="absolute inset-0 block lg:hidden">
                     <ImageWrapper
+                        draggable={false}
                         alt={i18n(I18nKey.mobileBackgroundLabel)}
                         class="object-cover h-full w-full"
                         src={backgroundImages.mobile[0]}
                         position={wallpaperPosition}
-                        width={828}
-                        widths={[640, 828]}
+                        layout="none"
                         sizes="100vw"
                         loading="eager"
                         fetchpriority="high"
                         fadeIn={false}
-                        quality={state.mobileQuality}
+                        quality={state.configQuality}
                     />
                 </div>
             )}
             {backgroundImages.desktop.length > 0 && (
                 <div class="absolute inset-0 hidden lg:block">
                     <ImageWrapper
+                        draggable={false}
                         alt={i18n(I18nKey.desktopBackgroundLabel)}
                         class="object-cover h-full"
                         src={backgroundImages.desktop[0]}

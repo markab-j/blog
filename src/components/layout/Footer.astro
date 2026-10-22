@@ -97,6 +97,7 @@ try {
 			width={640}
 			format="webp"
 			loading="lazy"
+			draggable={false}
 			class="footer-peek-image"
 		/>
 	</div>
@@ -105,8 +106,10 @@ try {
 <style>
 	.footer-peek {
 		position: relative;
-		height: clamp(7rem, 18vw, 9rem);
-		margin-top: 1rem;
+		width: min(20rem, 80vw);
+		/* 원본 위쪽의 투명 여백만 제외하고 얼굴 전체 높이를 확보한다. */
+		aspect-ratio: 1472 / 640;
+		margin: 1rem auto 0;
 		overflow: hidden;
 		pointer-events: none;
 	}
@@ -114,9 +117,10 @@ try {
 	.footer-peek-image {
 		position: absolute;
 		bottom: 0;
-		left: 50%;
-		width: min(20rem, 80vw);
+		left: 0;
+		width: 100%;
 		height: auto;
-		transform: translateX(-50%);
+		user-select: none;
+		-webkit-user-drag: none;
 	}
 </style>

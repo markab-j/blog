@@ -49,7 +49,6 @@ export interface BannerVisibilityState {
 	bannerCarouselEffect: string;
 	hasMultipleImages: boolean;
 	configQuality: number;
-	mobileQuality: number;
 }
 
 /** 随机选择副标题（当打字机关闭且为数组时）；运行时内联脚本会再选一次，此处为 SSR 初始值 */
@@ -162,7 +161,6 @@ export function getBannerVisibilityState(
 
 	const backgroundImages = getBackgroundImages();
 	const configQuality = getImageQuality();
-	const mobileQuality = Math.round(configQuality * 0.9);
 	const bannerCarouselEnabledDefault =
 		backgroundWallpaper.common?.carousel?.enable ?? false;
 	const bannerCarouselSwitchable =
@@ -210,6 +208,5 @@ export function getBannerVisibilityState(
 		bannerCarouselEffect,
 		hasMultipleImages,
 		configQuality,
-		mobileQuality,
 	};
 }

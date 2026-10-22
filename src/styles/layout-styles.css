@@ -427,6 +427,13 @@ html[data-wallpaper-mode="fullscreen"] body.is-home:not(.sticky-navbar):not(.dyn
     opacity: 1 !important;
 }
 
+/* 모바일 세로 화면에서도 배경 속 얼굴이 가운데에 오도록 기준점을 맞춘다. */
+@media (max-width: 1023px) {
+    html[data-wallpaper-mode="fullscreen"] body.is-home #wallpaper-wrapper img {
+        object-position: 34% center !important;
+    }
+}
+
 /* 首页首屏保持清晰：模糊只由 JS 按滚动驱动（--fullscreen-blur 未设置时 fallback 为 0） */
 html[data-wallpaper-mode="fullscreen"] body.is-home #wallpaper-wrapper img {
     filter: blur(var(--fullscreen-blur, 0px)) !important;
@@ -662,4 +669,8 @@ html[data-wallpaper-mode="fullscreen"][data-fullscreen-layout="classic"] #wallpa
         min-height: calc(100vh - 5.5rem) !important;
     }
 }
-
+/* 배경 사진에만 선택과 기본 이미지 드래그를 막는다. */
+#wallpaper-wrapper img {
+    user-select: none;
+    -webkit-user-drag: none;
+}

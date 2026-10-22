@@ -104,7 +104,7 @@ export const siteConfig: SiteConfig = {
 		// 使用 Astro 图标库时不需要设置 valueDark，图标会自动跟随主题亮暗色切换
 		logo: {
 			type: "image",
-			value: "/favicon/markab-j.png",
+			value: "/favicon/markab-j.svg",
 			alt: "markab-j 로고",
 		},
 		// 导航栏标题

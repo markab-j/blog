@@ -1,60 +1,66 @@
 name: Deploy to GitHub Pages
 
+# 최초 운영 전환은 사용자가 확인한 수동 실행으로만 수행한다.
 on:
-  push:
-    branches: [ master ]
   workflow_dispatch:
+    inputs:
+      confirm_deployment:
+        description: 'blog.markab-j.com 운영 사이트 배포를 승인합니다'
+        required: true
+        default: false
+        type: boolean
 
-# Pages 部署需要的权限
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
-# 确保只有一个部署任务同时运行
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: false
+
+env:
+  TZ: Asia/Seoul
+  PUBLIC_SITE_LANG: ko
 
 jobs:
   build:
+    if: ${{ inputs.confirm_deployment }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
-      
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Setup Node.js
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: '22'
-          
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v6
+      - name: Setup pnpm from packageManager
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
         with:
-          version: 11.22.0
           run_install: false
-          
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
-      
-      - name: Build site
-        run: pnpm run build
-
-      - name: Create .nojekyll file
+        run: pnpm install --frozen-lockfile
+      - name: Check and build
+        run: |
+          pnpm check
+          pnpm type-check
+          pnpm build
+          pnpm verify:blog
+      - name: Disable Jekyll processing
         run: touch dist/.nojekyll
-      
-      - name: Upload artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5
         with:
-          path: dist  # Astro默认构建输出目录
-          include-hidden-files: true  # Keep .nojekyll (excluded by default since v4)
+          path: dist
+          include-hidden-files: true
 
   deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
     steps:
       - name: Deploy to GitHub Pages
         id: deployment

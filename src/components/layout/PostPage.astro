@@ -41,7 +41,7 @@ const coverPositionClass =
   style={`--post-card-min-width: ${columnWidth}px;`}
 >
   {
-    page.data.length === 0 && <p class="card-base p-8 text-center">{i18n(I18nKey.noPublishedPosts)}</p>
+    page.data.length === 0 && <p class="card-base p-8 text-center text-lg font-bold text-90">{i18n(I18nKey.noPublishedPosts)}</p>
   }
   {
     page.data.map((entry: PostEntry, index: number) => (

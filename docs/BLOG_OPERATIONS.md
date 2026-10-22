@@ -78,6 +78,12 @@ slug: my-post
 
 스키마의 추가 필드는 `pinned`, `author`, `sourceLink`, `licenseName`, `licenseUrl`, `comment`, `password`, `passwordHint`, `series`, `seriesOrder`다. `prevTitle`, `prevSlug`, `nextTitle`, `nextSlug`는 내부 계산값이므로 직접 관리하지 않는다. 제목·게시일은 필수이며 `draft`를 생략해도 안전하게 초안으로 처리한다. MDX는 기존 Firefly 컴포넌트를 재사용한다. JSON/YAML에서 제목과 경로에 `:` 등 특수문자가 있다면 따옴표를 쓴다.
 
+### 프로젝트 등록
+
+프로젝트도 `src/content/projects/<slug>/index.md`에 Markdown으로 관리한다. 기존 프로젝트 목록·상세 컴포넌트를 재사용한다. `siteConfig.pages.projects`는 현재 켜져 있다.
+
+Idlerama 소개 초안은 `src/content/projects/idlerama/index.md`에 있다. `draft: true`라 `pnpm dev`에서만 확인할 수 있으며 운영 빌드에는 목록 항목과 상세 페이지가 생성되지 않는다. 개발 미리보기 경로는 `/projects/idlerama/`다. 공개 요청을 받은 뒤 설명·개발 상태·GitHub 저장소 공개 여부를 확인하고 실제 공개일과 `draft: false`를 설정한다. 스크린샷은 제공받은 자료를 같은 폴더에 저장하고 `image`에 상대 경로로 지정한다.
+
 ## 4. 초안과 발행
 
 - `pnpm dev`는 초안도 표시한다. 개발 서버를 공개하지 않는다.
@@ -95,7 +101,7 @@ slug: my-post
 
 ## 6. 댓글과 선택 기능
 
-`siteConfig.pages`로 이웃·방명록·일상·프로젝트·갤러리·북마크·후원·애니메이션 목록을 제어한다. 후원 페이지는 활성화되어 있으며 나머지 미설정 선택 기능은 꺼져 있다. 끈 메뉴는 자동으로 숨겨지고 직접 방문하면 GitHub Pages의 `/404.html`로 이동한다. 자동 생성된 이동 안내 문구는 Astro 기본 출력이며 정상 페이지의 한국어 번역과 별개다.
+`siteConfig.pages`로 이웃·방명록·일상·프로젝트·갤러리·북마크·후원·애니메이션 목록을 제어한다. 후원·프로젝트 페이지는 활성화되어 있으며 나머지 미설정 선택 기능은 꺼져 있다. 끈 메뉴는 자동으로 숨겨지고 직접 방문하면 GitHub Pages의 `/404.html`로 이동한다. 자동 생성된 이동 안내 문구는 Astro 기본 출력이며 정상 페이지의 한국어 번역과 별개다.
 
 댓글은 `commentConfig.type: "none"`이다. Giscus 등 실제 서비스가 준비되면 소유자 저장소와 서비스에서 받은 ID를 설정하고 한국어 지원 여부·권한을 검증한다. 예시 서버·기존 작성자 ID는 제거했다. 서비스별 지원 언어는 다를 수 있으므로 활성화 전 해당 서비스 공식 문서를 확인한다. 방명록은 댓글 설정 후 페이지 스위치를 켠다. API 비밀키는 환경 변수로만 관리한다.
 

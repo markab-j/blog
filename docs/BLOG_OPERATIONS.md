@@ -105,7 +105,7 @@ Idlerama의 외부 연결은 홈페이지 `https://idlerama.markab-j.com`을 사
 
 `siteConfig.pages`로 이웃·방명록·일상·프로젝트·갤러리·북마크·후원·애니메이션 목록을 제어한다. 후원·프로젝트·사진 앨범·즐겨찾기·한마디(Dynamic)·방명록 페이지는 활성화되어 있다. 이웃과 애니메이션 목록 등 나머지 선택 기능은 꺼져 있다. 끈 메뉴는 자동으로 숨겨지고 직접 방문하면 GitHub Pages의 `/404.html`로 이동한다. 자동 생성된 이동 안내 문구는 Astro 기본 출력이며 정상 페이지의 한국어 번역과 별개다.
 
-댓글은 `commentConfig.type: "none"`이다. Giscus 등 실제 서비스가 준비되면 소유자 저장소와 서비스에서 받은 ID를 설정하고 한국어 지원 여부·권한을 검증한다. 예시 서버·기존 작성자 ID는 제거했다. 서비스별 지원 언어는 다를 수 있으므로 활성화 전 해당 서비스 공식 문서를 확인한다. 방명록은 댓글 설정 후 페이지 스위치를 켠다. API 비밀키는 환경 변수로만 관리한다.
+댓글은 `commentConfig.type: "giscus"`로 연결되어 있다. 사용자가 제공한 `markab-j/blog` 저장소와 `Announcements` 카테고리를 사용한다. 페이지 경로(`pathname`)와 엄격한 일치로 연결하며, 반응 표시·상단 입력창·한국어·지연 로딩을 사용하고 메타데이터 전송은 끈다. 라이트·다크 테마는 기존 Giscus 컴포넌트가 블로그 화면 모드에 맞춰 자동 변경한다. 생성된 외부 script를 중복 삽입하지 않는다. 방명록과 댓글을 허용한 게시글·한마디에 적용되며, 후원 페이지의 댓글은 기존 설정대로 꺼져 있다. API 비밀키는 환경 변수로만 관리한다.
 
 음악 버튼은 내비게이션에서 켜져 있고 사이드바는 꺼져 있으며 재생 목록은 비어 있다. 후원은 Ko-fi만 활성화되어 있으며, 후원자·이웃·갤러리·북마크 목록은 비어 있다. 실제 자료를 등록한 뒤 관련 스위치를 켠다. 캐릭터 모델은 비활성화했고 예시 미디어는 보관 폴더로 이동했다. 통계 서비스는 ID가 없어 동작하지 않는다. 표시 설정·다크 모드·테마 색상·목록 전환 등 기존 기능은 유지한다.
 
@@ -114,7 +114,7 @@ Idlerama의 외부 연결은 홈페이지 `https://idlerama.markab-j.com`을 사
 - **사진 앨범** `/gallery/`: `src/config/galleryConfig.ts`의 `albums`에 앨범을 등록하고 `public/gallery/<앨범 ID>/`에 제공받은 사진을 넣는다. 현재는 빈 목록이며 데모 이미지를 되살리지 않는다.
 - **즐겨찾기** `/booknav/`: `src/config/booknavConfig.ts`의 그룹과 `items`에 실제 제목·URL을 등록한다. 아직 사용자 지정 링크는 없다.
 - **한마디** `/dynamic/`: 기존 Dynamic을 한국어에서 ‘한마디’로 표시한다. 짧은 기록은 `src/content/dynamic/`의 Markdown으로 관리하고 외부 Memos 연결은 끈 상태다. 기존 Dynamic 스키마는 초안 필터가 없으므로 사용자의 명시적 공개 요청이 있기 전에는 이 폴더에 새 기록을 생성하지 않는다. 게시를 요청받으면 `pnpm new-dynamic`으로 생성하고 본문과 서울 시간대를 포함한 `published`를 확인한다.
-- **방명록** `/guestbook/`: 페이지는 켜져 있지만 댓글 서비스 연결 전에는 입력·저장이 동작하지 않는다. `src/content/spec/guestbook.md`가 소개 본문이다. Giscus를 쓸 경우 서비스에서 받은 `repo`, `repoId`, `category`, `categoryId`를 `commentConfig.giscus`에 넣고 `type: "giscus"`를 선택한다. 다른 서비스를 쓰면 해당 설정을 사용한다. 값이나 계정을 추측하거나 외부 저장소 설정을 임의로 바꾸지 않는다.
+- **방명록** `/guestbook/`: Giscus가 연결되어 있으며 댓글은 `markab-j/blog`의 `Announcements` Discussions에 저장된다. `src/content/spec/guestbook.md`가 소개 본문이다. Giscus를 쓸 경우 서비스에서 받은 `repo`, `repoId`, `category`, `categoryId`를 `commentConfig.giscus`에 넣고 `type: "giscus"`를 선택한다. 다른 서비스를 쓰면 해당 설정을 사용한다. 값이나 계정을 추측하거나 외부 저장소 설정을 임의로 바꾸지 않는다.
 - **음악 버튼**: `src/config/musicConfig.ts`의 `showInNavbar: true`로 기존 버튼을 표시한다. `mode: "local"`, `local.playlist: []`이므로 아직 재생할 곡은 없다. 사용 권한이 있는 음원 파일이나 직접 재생 가능한 URL, 곡명, 아티스트를 받으면 기존 `playlist`에 `name`, `artist`, `url`, 선택적인 `cover`, `lrc`를 등록한다. 파일은 `public/assets/music/`에 두며 자동 재생이나 샘플 음악은 추가하지 않는다. 단순 서비스 공유 링크는 직접 재생 URL과 다를 수 있다.
 
 ### 후원 링크 관리

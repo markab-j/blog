@@ -83,12 +83,18 @@ flowchart LR
 
 정적 블로그를 직접 만들어 본 사람들은 알겠지만, `remark-*`, `rehype-*`라는 라이브러리를 매우 많이 볼 수 있다.
 
-- remark: 
-- rehype: 
+특히 Markdown으로 작성한 글을 HTML로 변환하는 빌드 파이프라인에 이러한 플러그인을 추가하는 경우가 많다.
 
-그래서 이 블로그에서는 작성할 코드는 생각보다 적었다.
+- **remark**: Markdown을 HTML로 변환하기 전 단계에서 동작한다. 제목, 문단, 링크, 코드 블록 등 Markdown의 구조를 분석하고, 플러그인을 통해 문법을 확장하거나 콘텐츠를 가공할 수 있다.
+- **rehype**: Markdown이 HTML 구조로 변환된 이후 단계에서 동작한다. HTML 요소에 속성을 추가하거나, 코드 구문 강조를 적용하고, 생성될 HTML의 구조를 변경하는 등의 작업을 담당한다.
 
-```pele
+그리고 내가 할 일은 원래 동작하는 렌더러만 바꾸는 작업이었다.
+
+따라서, 이 블로그에서는 작성할 코드는 생각보다 적었다. 거의 이름만 바꾸는 수준의 작업 말고는 없었으니까.
+
+아래 다이어그램은 pele로 렌더링된 다이어그램이다.
+
+```mermaid
 flowchart TD
     A[Markdown 코드 블록] --> B[remarkPele: 대상 추출]
     B --> C[rehypePele: SVG 생성]
@@ -96,63 +102,13 @@ flowchart TD
     D --> E[글의 HTML]
 ```
 
-### remark: 다이어그램 코드 블록 찾기
-
-`src/plugins/remark-pele.js`는 언어가 `mermaid` 코드 블록을 골라낸다.
-일반 코드 하이라이터로 넘어가지 않도록 노드 타입을 바꾸고, 다음 단계에서 읽을 원본을 남긴다.
-
-```js
-import { visit } from "unist-util-visit";
-
-export function remarkPele() {
-	return (tree) => {
-		visit(tree, "code", (node) => {
-			if (node.lang === "mermaid") {
-				const code = node.value;
-				node.type = "pele";
-				node.data = {
-					hName: "div",
-					hProperties: {
-						className: ["pele-source"],
-						"data-pele-code": code,
-					},
-					hChildren: [{ type: "text", value: code }],
-				};
-				node.value = undefined;
-			}
-		});
-	};
-}
-```
-
-### rehype: 원본을 SVG로 바꾸기
-
-`src/plugins/rehype-pele.mjs`에서는 `pele-source` 요소를 찾아 원본을 `render()`에 전달한다. 아래는 실제 플러그인의 렌더링 부분을 발췌한 코드다.
-
-remark에서 변환된 html 구조를 토대로 pele의 렌더링을 적용시키면 된다.
-
-```js
-const { svg } = render(source, {
-	idPrefix: `pele-${diagramIndex++}`,
-	...options,
-});
-
-node.children = [
-	h(
-		"div",
-		{ class: `${DIAGRAM_WRAPPER} ${PELE_WRAPPER}` },
-		fromHtml(svg, { fragment: true }).children,
-	),
-];
-```
-
-마지막으로 `astro.config.mjs`에서 `remarkPele`와 `[rehypePele, peleConfig]`를 기존 플러그인 목록에 등록했다.
+이런식으로 구성되므로 내가 할 일은 rehype에서 렌더러를 수정하는 것만 진행하면 됐다.
 
 ## 가장 마음에 든 변화
 
 바꾸고 보니 의미없는 변경은 아니었다.
 
-무려 css로 색상을 관리할 수 있게 됐다.
+이전과 다른 점이 분명히 생겼는데 무려 css로 색상을 관리할 수 있게 됐다.
 
 ...
 
@@ -164,10 +120,12 @@ node.children = [
 
 ## 꼭 바꿔야 했을까
 
-사실 꼭 필요한 작업은 아니었다. 이미 Merman으로 빌드할 때 SVG를 만들고 있었고, 블로그에 성능 문제를 느낄 만큼 다이어그램이 많은 것도 아니었다.
+사실 꼭 필요한 작업은 아니었다.
 
-속도 때문에 바꿔야 할 이유도 없었다.
+이미 Merman으로 빌드할 때 SVG를 만들고 있었고, 블로그에 성능 문제를 느낄 만큼 다이어그램이 많은 것도 아니었다.
 
-이제 블로그 꾸미는 것도, 이쯤 손봤으니 여기에 넣을 글을 써야겠다.
+속도 때문에 바꿔야 할 이유도 없었고.
+
+이제 블로그 꾸미는 것도, 이쯤 손봤으니 여기에 넣을 글이나 써야겠다.
 
 이래놓고 또 꾸미러 갈 수도 있겠지만.
